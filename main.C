@@ -3,7 +3,7 @@
 int main(int argc, char *argv[])
 {
 	Objects objects;
-	
+	sdfsdfsqgs
 	gameInitialization(&objects);
 	
 	
