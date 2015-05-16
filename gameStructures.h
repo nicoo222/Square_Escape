@@ -25,7 +25,8 @@ typedef struct Character{
 typedef struct Enemies{
 	SDL_Texture * enemies[MAX_ENEMIES];
 	SDL_Rect enemiesPosition[MAX_ENEMIES];
-	int way[MAX_ENEMIES]; 
+	int way[MAX_ENEMIES];
+	int speed[MAX_ENEMIES];
 	int numberOfEnemies;
 }Enemies;
 

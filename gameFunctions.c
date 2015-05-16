@@ -226,3 +226,9 @@ void endGame(Screen *pScreen){
 	SDL_DestroyWindow(pScreen->window);
     SDL_Quit();  
 }
+
+void addOneEnemy(Enemies *pEnemies){
+	if(pEnemies->numberOfEnemies < MAX_ENEMIES){
+		pEnemies->numberOfEnemies++;
+	}
+}
