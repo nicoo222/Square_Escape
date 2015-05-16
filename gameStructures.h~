@@ -49,7 +49,6 @@ typedef struct Screen{
 typedef struct GameState{
 	int lost;
 	int waiting;
-	int pause;
 	int quit;
 	double time;
 }GameState;
