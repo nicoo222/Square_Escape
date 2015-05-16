@@ -133,50 +133,90 @@ void enemiesCollision(Enemies *pEnemies,Collision * pCollision){
 	int i;
 	
 	//Collision pour les ennemis avec le bord de l'écran
+	//#immonde
 	for(i=0;i<pEnemies->numberOfEnemies;i++){
+		int newWay;
+		// bord de droite
+		if (pEnemies->enemiesPosition[i].x + SQUARE_WIDTH > SCREEN_WIDTH){
+			if(pEnemies->way[i]==1) {
+				pEnemies->way[i]=4 + SDL_GetTicks()%3;
+			}else if (pEnemies->way[i]==2){
+				pEnemies->way[i]=4 + SDL_GetTicks()%2;
+			}else{
+				pEnemies->way[i]=5 + SDL_GetTicks()%2;
+			}
+		}
+		// bord du haut
+		if (pEnemies->enemiesPosition[i].y > 0){
+			if(pEnemies->way[i]==3) {
+				pEnemies->way[i]=6 + SDL_GetTicks()%3;
+			}else if (pEnemies->way[i]==2){
+				pEnemies->way[i]=7 + SDL_GetTicks()%2;
+			}else{
+				pEnemies->way[i]=6 + SDL_GetTicks()%2;
+			}
+		}
+		// bord de gauche
 		if (pEnemies->enemiesPosition[i].x <= 0){
-			if(pEnemies->way[i]==4) pEnemies->way[i]=1;
-			else pEnemies->way[i]=2;
+			newWay = SDL_GetTicks()%3;
+			if(pEnemies->way[i]==5) {
+				if(newWay == 0) {
+					pEnemies->way[i]=8;
+				}else if (newWay == 1){
+					pEnemies->way[i]=1;
+				}else{
+					pEnemies->way[i]=2;
+				}
+			}else if (pEnemies->way[i]==4){
+				pEnemies->way[i]=1 + SDL_GetTicks()%2;
+			}else{
+				newWay = SDL_GetTicks()%2;
+				if(newWay == 0){
+					pEnemies->way[i]=8;
+				}else{
+					pEnemies->way[i]=1;
+				}
+			}
+
 		}
-
-		if (pEnemies->enemiesPosition[i].y <= 0){ 
-			if(pEnemies->way[i]==3) pEnemies->way[i]=4;
-			else pEnemies->way[i]=1;
-		}
-
-		if (pEnemies->enemiesPosition[i].x + SQUARE_WIDTH > SCREEN_WIDTH ){
-			if(pEnemies->way[i]==2) pEnemies->way[i]=3;
-			else pEnemies->way[i]=4;
-		} 
-
+		// bord du bas
 		if (pEnemies->enemiesPosition[i].y + SQUARE_HEIGHT > SCREEN_HEIGHT){
-			if(pEnemies->way[i]==1) pEnemies->way[i]=2;
-			else pEnemies->way[i]=3;
+			if(pEnemies->way[i]==7) {
+				pEnemies->way[i]=2 + SDL_GetTicks()%3;
+			}else if (pEnemies->way[i]==6){
+				pEnemies->way[i]=3 + SDL_GetTicks()%2;
+			}else{
+				pEnemies->way[i]=2 + SDL_GetTicks()%2;
+			}
 		}
 	}
 }
 
 void moveEnemies(Enemies *pEnemies){
 	int i;
-	
 	for(i=0;i<pEnemies->numberOfEnemies;i++){
+		// le rapport de sqrt(2) = 1,41 est utilisé pour garder une vitesse à peut près constante
+		// entre les diagonales et les directions cartésiennes
 		if(pEnemies->way[i]==1){
-			pEnemies->enemiesPosition[i].x+=2;
-			pEnemies->enemiesPosition[i].y+=2;
-		}
-	
-		else if(pEnemies->way[i]==2){
-			pEnemies->enemiesPosition[i].x+=2;
-			pEnemies->enemiesPosition[i].y-=2;
-		}
-		
-		else if(pEnemies->way[i]==3){
-			pEnemies->enemiesPosition[i].x-=2;
-			pEnemies->enemiesPosition[i].y-=2;
-		}
-		else if(pEnemies->way[i]==4){
-			pEnemies->enemiesPosition[i].x-=2;
-			pEnemies->enemiesPosition[i].y+=2;
+			pEnemies->enemiesPosition[i].x+=pEnemies->speed[i]*1.41;
+		}else if(pEnemies->way[i]==2){
+			pEnemies->enemiesPosition[i].x+=pEnemies->speed[i];
+			pEnemies->enemiesPosition[i].y+=pEnemies->speed[i];
+		}else if(pEnemies->way[i]==3){
+			pEnemies->enemiesPosition[i].y-=pEnemies->speed[i]*1.41;
+		}else if(pEnemies->way[i]==4){
+			pEnemies->enemiesPosition[i].x-=pEnemies->speed[i];
+			pEnemies->enemiesPosition[i].y-=pEnemies->speed[i];
+		}else if(pEnemies->way[i]==5){
+			pEnemies->enemiesPosition[i].x-=pEnemies->speed[i]*1.41;
+		}else if(pEnemies->way[i]==6){
+			pEnemies->enemiesPosition[i].x-=pEnemies->speed[i];
+			pEnemies->enemiesPosition[i].y+=pEnemies->speed[i];
+		}else if(pEnemies->way[i]==7){
+			pEnemies->enemiesPosition[i].y+=pEnemies->speed[i]*1.41;
+		}else if(pEnemies->way[i]==8){
+			pEnemies->enemiesPosition[i].x+=pEnemies->speed[i];
+			pEnemies->enemiesPosition[i].y+=pEnemies->speed[i];
 		}
 	}
 }
