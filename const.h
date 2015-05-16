@@ -10,6 +10,6 @@
 #define SQUARE_WIDTH 48
 #define SQUARE_HEIGHT 48
 #define DEFAULT_MUSIC 1
-#define MAX_ENEMIES 6
+#define MAX_ENEMIES 40
 
 #endif
