@@ -101,6 +101,34 @@ void characterCollision(Character *pCharacter, Enemies *pEnemies, Collision *pCo
 
 }
 
+void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
+	int i;
+	SDL_Surface * surface;
+	
+	surface=SDL_LoadBMP("Pictures/redSquare.bmp");
+	
+	if (surface == NULL){
+		fprintf(stderr,"Erreur chargement de l'image des ennemis\n");
+		exit(1);
+	}
+    
+	//Initialisation des premiers ennemy
+	for(i=0;i<MAX_ENEMIES;i++){
+		pEnemies->enemies[i]=SDL_CreateTextureFromSurface(pScreen->renderer,surface);
+		SDL_QueryTexture(pEnemies->enemies[i], NULL, NULL, &(pEnemies->enemiesPosition[i].w), &(pEnemies->enemiesPosition[i].h));
+		pEnemies->way[i]=1;
+		pEnemies->speed[i]=3;
+	}
+	
+	//Initialisation des coordonées des premiers ennemis 
+	pEnemies->enemiesPosition[0].x=100;
+	pEnemies->enemiesPosition[0].y=50;
+	pEnemies->enemiesPosition[1].x=200;
+	pEnemies->enemiesPosition[1].y=100;
+	
+	pEnemies->numberOfEnemies=2;
+}
+
 void enemiesCollision(Enemies *pEnemies,Collision * pCollision){
 	int i;
 	

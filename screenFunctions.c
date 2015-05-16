@@ -29,32 +29,6 @@ void characterInitialization(Character *pCharacter,Screen *pScreen){
 	
 }
 
-void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
-	int i;
-	SDL_Surface * surface;
-	
-	surface=SDL_LoadBMP("Pictures/redSquare.bmp");
-	
-	if (surface == NULL){
-		fprintf(stderr,"Erreur chargement de l'image des ennemis\n");
-		exit(1);
-	}
-    
-	//Initialisation du tableau des ennemis
-	for(i=0;i<MAX_ENEMIES;i++){
-		pEnemies->enemies[i]=SDL_CreateTextureFromSurface(pScreen->renderer,surface);
-		SDL_QueryTexture(pEnemies->enemies[i], NULL, NULL, &(pEnemies->enemiesPosition[i].w), &(pEnemies->enemiesPosition[i].h));
-		pEnemies->way[i]=2;
-	}
-	
-	//Initialisation des premiers ennemis 
-	pEnemies->enemiesPosition[0].x=100;
-	pEnemies->enemiesPosition[0].y=50;
-	pEnemies->enemiesPosition[1].x=200;
-	pEnemies->enemiesPosition[1].y=100;
-	
-	pEnemies->numberOfEnemies=1;
-}
 
 void updateScreen(Character *pCharacter,Enemies *pEnemies,Screen *pScreen){
 	int i;

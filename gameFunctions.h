@@ -19,5 +19,6 @@ void audioInitilization();
 void enemiesCollision(Enemies *pEnemies,Collision * pCollision);
 void moveEnemies(Enemies *pEnemies);
 void endGame(Screen *pScreen);
+void enemiesInitialization(Enemies *pEnemies,Screen *pScreen);
 
 #endif
