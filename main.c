@@ -1,5 +1,5 @@
-#include "gameFunctions.c"
-#include "screenFunctions.c"
+#include "gameFunctions.h"
+#include "screenFunctions.h"
 
 int main(int argc, char *argv[])
 {
