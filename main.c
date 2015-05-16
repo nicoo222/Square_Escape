@@ -13,13 +13,13 @@ int main(int argc, char *argv[])
 	gameInitialization(&screen);
 	audioInitilization();
 	
-    int frameTime, currentTime, frame = 0;
+	int frameTime, currentTime, frame = 0;
 	
 	memset(&gameState,0,sizeof(gameState));
+	memset(&in,0,sizeof(in));
 	
-    while(!gameState.quit)
-    {
-		
+	while(!in.quit){
+
 		//Mise à 0 des des booléens des structures.
 		memset(&in,0,sizeof(in));
 		memset(&gameState,0,sizeof(gameState));
@@ -31,11 +31,11 @@ int main(int argc, char *argv[])
 		
 		
 		while(!in.keys[SDL_SCANCODE_P] && !in.quit && !gameState.lost){
+		    currentTime = SDL_GetTicks ();
 		    frameTime = SDL_GetTicks();
 		    frame++;
-		    
 		    moveEnemies(&enemies);
-			updateInput(&in);
+		    updateInput(&in);
 		    checkCollision(&character,&enemies,&collision,&gameState);
 		    updateScreen(&character,&enemies,&screen);
 		    
@@ -70,22 +70,24 @@ int main(int argc, char *argv[])
 			}
 		
         	SDL_Delay(4);
-        }
-        
-        gameState.waiting=1;
+		}
 		
-		//On attend que l'utilisateur décide de rejouer ou non
-		while(gameState.waiting){
-			updateInput(&in);
+		if(!in.quit){
+			gameState.waiting=1;
 			
-			if(in.keys[SDL_SCANCODE_N]){
-			 	gameState.quit=1;
-			 	gameState.waiting=0;
-			}
-			
-			if(in.keys[SDL_SCANCODE_Y]){
-				gameState.quit=0;
-				gameState.waiting=0;
+			//On attend que l'utilisateur décide de rejouer ou non
+			while(gameState.waiting){
+				updateInput(&in);
+				
+				if(in.keys[SDL_SCANCODE_N]){
+					gameState.quit=1;
+					gameState.waiting=0;
+				}
+				
+				if(in.keys[SDL_SCANCODE_Y]){
+					gameState.quit=0;
+					gameState.waiting=0;
+				}
 			}
 		}
     }
