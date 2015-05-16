@@ -11,11 +11,12 @@ int main(int argc, char *argv[])
 	Collision collision;
 	
 	gameInitialization(&screen);
-	
+	audioInitilization();
 	
     int frameTime, currentTime, frame = 0;
 	
 	memset(&gameState,0,sizeof(gameState));
+	
     while(!gameState.quit)
     {
 		
@@ -27,6 +28,7 @@ int main(int argc, char *argv[])
 		enemiesInitialization(&enemies,&screen);
 		
 		updateScreen(&character,&enemies,&screen);
+		
 		
 		while(!in.keys[SDL_SCANCODE_P] && !in.quit && !gameState.lost){
 		    frameTime = SDL_GetTicks();

@@ -19,7 +19,7 @@ void gameInitialization(Screen *pScreen){
                           SDL_WINDOWPOS_UNDEFINED,
                           SCREEN_WIDTH, SCREEN_HEIGHT,
                           SDL_WINDOW_OPENGL);
-    
+   
     //Création du renderer
     pScreen->renderer = NULL;
     
@@ -38,7 +38,17 @@ void gameInitialization(Screen *pScreen){
 	pScreen->map = SDL_CreateTextureFromSurface(pScreen->renderer,surface);
 }
 
+void audioInitilization(){
+	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1){ //Initialisation de l'API Mixer
+		fprintf(stderr, "SDL audio mode can't be loaded: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 2); //Mettre le volume à la moitié
+	Mix_Music *musique=Mix_LoadMUS("Music/newgrounds.mp3"); //
+    Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
 
+}
 void updateInput(Input * in){
     SDL_Event event;
     while(SDL_PollEvent(&event)){
