@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	gameInitialization(&screen);
 	audioInitilization();
 	
-	int frameTime, currentTime, frame = 0;
+	int frameTime, currentTime, frame = 0, delay;
 	
 	memset(&gameState,0,sizeof(gameState));
 	memset(&in,0,sizeof(in));
@@ -31,7 +31,6 @@ int main(int argc, char *argv[])
 		
 		
 		while(!in.keys[SDL_SCANCODE_P] && !in.quit && !gameState.lost){
-		    currentTime = SDL_GetTicks ();
 		    frameTime = SDL_GetTicks();
 		    frame++;
 		    moveEnemies(&enemies);
@@ -68,24 +67,27 @@ int main(int argc, char *argv[])
 				enemies.numberOfEnemies++;
 				in.keys[SDL_SCANCODE_SPACE]=0;
 			}
-		
-        	SDL_Delay(4);
+			
+			currentTime = SDL_GetTicks();
+			delay = 4 - currentTime + frameTime;
+			if (delay > 0) {
+				SDL_Delay(4 - currentTime + frameTime);
+			}
 		}
 		
 		if(!in.quit){
 			gameState.waiting=1;
 			
 			//On attend que l'utilisateur décide de rejouer ou non
-			while(gameState.waiting){
+			while(gameState.waiting && !in.quit){
 				updateInput(&in);
 				
 				if(in.keys[SDL_SCANCODE_N]){
-					gameState.quit=1;
+					in.quit=1;
 					gameState.waiting=0;
 				}
 				
 				if(in.keys[SDL_SCANCODE_Y]){
-					gameState.quit=0;
 					gameState.waiting=0;
 				}
 			}
