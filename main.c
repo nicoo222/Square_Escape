@@ -1,5 +1,6 @@
 #include "gameFunctions.h"
 #include "screenFunctions.h"
+#include "lib.h"
 
 int main(int argc, char *argv[])
 {
@@ -29,15 +30,11 @@ int main(int argc, char *argv[])
 		
 		characterInitialization(&character,&screen);
 		enemiesInitialization(&enemies,&screen);
-		
 		updateScreen(&character,&enemies,&screen);
-		
-		
 		
 		while(!in.keys[SDL_SCANCODE_P] && !in.quit && !gameState.lost){
 			frameTime = SDL_GetTicks();
 			frame++;
-			
 			//on ajoute un ennemy régulièrement
 			if (frame%120 == 0){
 				addOneEnemy(&enemies);

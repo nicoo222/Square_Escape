@@ -75,8 +75,7 @@ void checkCollision(Character *pCharacter,Enemies *pEnemies,Collision *pCollisio
 	memset(pCollision,0,sizeof(*pCollision));//Mise des élements de la structure à 0 (faux)
 	
 	characterCollision(pCharacter,pEnemies,pCollision,pGameState);
-	enemiesCollision(pEnemies,pCollision);
-
+	enemiesCollision(pEnemies);
 }
 
 void characterCollision(Character *pCharacter, Enemies *pEnemies, Collision *pCollision, GameState *pGameState){
@@ -118,6 +117,8 @@ void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
 		SDL_QueryTexture(pEnemies->enemies[i], NULL, NULL, &(pEnemies->enemiesPosition[i].w), &(pEnemies->enemiesPosition[i].h));
 		pEnemies->way[i]=1;
 		pEnemies->speed[i]=3;
+		pEnemies->enemiesPosition[i].x=100;
+		pEnemies->enemiesPosition[i].y=300;
 	}
 	
 	//Initialisation des coordonées des premiers ennemis 
@@ -129,13 +130,12 @@ void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
 	pEnemies->numberOfEnemies=2;
 }
 
-void enemiesCollision(Enemies *pEnemies,Collision * pCollision){
+void enemiesCollision(Enemies *pEnemies){
 	int i;
 	
 	//Collision pour les ennemis avec le bord de l'écran
 	//#immonde
 	for(i=0;i<pEnemies->numberOfEnemies;i++){
-		int newWay;
 		// bord de droite
 		if (pEnemies->enemiesPosition[i].x + SQUARE_WIDTH > SCREEN_WIDTH){
 			if(pEnemies->way[i]==1) {
@@ -147,7 +147,7 @@ void enemiesCollision(Enemies *pEnemies,Collision * pCollision){
 			}
 		}
 		// bord du haut
-		if (pEnemies->enemiesPosition[i].y > 0){
+		if (pEnemies->enemiesPosition[i].y <= 0){
 			if(pEnemies->way[i]==3) {
 				pEnemies->way[i]=6 + SDL_GetTicks()%3;
 			}else if (pEnemies->way[i]==2){
@@ -157,6 +157,7 @@ void enemiesCollision(Enemies *pEnemies,Collision * pCollision){
 			}
 		}
 		// bord de gauche
+		int newWay;
 		if (pEnemies->enemiesPosition[i].x <= 0){
 			newWay = SDL_GetTicks()%3;
 			if(pEnemies->way[i]==5) {
