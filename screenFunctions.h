@@ -1,7 +1,7 @@
 #ifndef gameFunctions
 #define gameFunctions
  
-#include "gameStructures.h"
+#include "lib.h"
 
 //Prototypes des fonctions relatives à l'affichage
 

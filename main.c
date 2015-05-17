@@ -1,7 +1,7 @@
-#include "gameFunctions.h"
-#include "screenFunctions.h"
-#include "gameLoop.h"
+#include "lib.h"
 
+
+//gcc main.c initFunctions.c gameFunctions.c screenFunctions.c  gameLoop.c -lSDL2 -lSDL2_mixer -o game
 int main(int argc, char *argv[]){
 	Character character;
 	Enemies enemies;

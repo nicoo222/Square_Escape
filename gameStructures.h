@@ -1,7 +1,7 @@
 #ifndef structures
 #define structures
  
-#include "const.h"
+#include "lib.h"
 
 
 //Structures globales
