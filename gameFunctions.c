@@ -72,8 +72,8 @@ void checkCollision(Character *pCharacter,Enemies *pEnemies,Collision *pCollisio
 
 	memset(pCollision,0,sizeof(*pCollision));//Mise des élements de la structure à 0 (faux)
 	
-	characterCollision(pCharacter,pEnemies,pCollision,pGameState);
 	enemiesCollision(pEnemies);
+	characterCollision(pCharacter,pEnemies,pCollision,pGameState);
 }
 
 void characterCollision(Character *pCharacter, Enemies *pEnemies, Collision *pCollision, GameState *pGameState){
@@ -137,20 +137,20 @@ void enemiesCollision(Enemies *pEnemies){
 		// bord de droite
 		if (pEnemies->enemiesPosition[i].x + SQUARE_WIDTH > SCREEN_WIDTH){
 			if(pEnemies->way[i]==1) {
-				pEnemies->way[i]=4 + rand()%3;
+				pEnemies->way[i]=5+rand()%2*2-1;
 			}else if (pEnemies->way[i]==2){
 				pEnemies->way[i]=4 + rand()%2;
-			}else{
+			}else if (pEnemies->way[i]==8) {
 				pEnemies->way[i]=5 + rand()%2;
 			}
 		}
 		// bord du haut
 		if (pEnemies->enemiesPosition[i].y <= 0){
-			if(pEnemies->way[i]==3) {
-				pEnemies->way[i]=6 + rand()%3;
-			}else if (pEnemies->way[i]==2){
+			if(pEnemies->way[i]== 3) {
+				pEnemies->way[i]=7 + rand()%2*2-1;
+			}else if (pEnemies->way[i]== 2){
 				pEnemies->way[i]=7 + rand()%2;
-			}else{
+			}else if (pEnemies->way[i]== 4) {
 				pEnemies->way[i]=6 + rand()%2;
 			}
 		}
@@ -168,7 +168,7 @@ void enemiesCollision(Enemies *pEnemies){
 				}
 			}else if (pEnemies->way[i]==4){
 				pEnemies->way[i]=1 + rand()%2;
-			}else{
+			}else if (pEnemies->way[i]==6){
 				newWay = rand()%2;
 				if(newWay == 0){
 					pEnemies->way[i]=8;
@@ -176,15 +176,14 @@ void enemiesCollision(Enemies *pEnemies){
 					pEnemies->way[i]=1;
 				}
 			}
-
 		}
 		// bord du bas
 		if (pEnemies->enemiesPosition[i].y + SQUARE_HEIGHT > SCREEN_HEIGHT){
 			if(pEnemies->way[i]==7) {
-				pEnemies->way[i]=2 + rand()%3;
+				pEnemies->way[i]=3 + rand()%2*2-1;
 			}else if (pEnemies->way[i]==6){
 				pEnemies->way[i]=3 + rand()%2;
-			}else{
+			}else if (pEnemies->way[i]==8){
 				pEnemies->way[i]=2 + rand()%2;
 			}
 		}

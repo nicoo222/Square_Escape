@@ -36,7 +36,6 @@ int main(int argc, char *argv[])
 		while(!in.keys[SDL_SCANCODE_P] && !in.quit && !gameState.lost){
 			frameTime = SDL_GetTicks();
 			frame++;
-			printf("%d",rand()%5);
 			//on ajoute un ennemy régulièrement
 			if (frame%120 == 0){
 				addOneEnemy(&enemies);
