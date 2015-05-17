@@ -79,4 +79,19 @@ void playLoop (Input *pIn,GameState *pGameState,int *pFrame,Character *pCharacte
 	}
 }
 
+void endGameLoop(Input *pIn,GameState *pGameState){
+	while(pGameState->waiting && !pIn->quit){
+		updateInput(pIn);
+	
+		if(pIn->keys[SDL_SCANCODE_N]){
+			pIn->quit=1;
+			pGameState->waiting=0;
+		}
+	
+		if(pIn->keys[SDL_SCANCODE_Y]){
+			pGameState->waiting=0;
+		}
+	}
+}
+
 

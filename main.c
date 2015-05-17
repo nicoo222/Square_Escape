@@ -26,6 +26,7 @@ int main(int argc, char *argv[]){
 	// Durée de la boucle de jeu en ms
 	// 17 correspond envirron à 60 fps
 	screen.frameDuration = 17;
+	
 	while(!in.quit){
 		
 		playLoop (&in,&gameState,&frame,&character,&enemies,&collision,&screen);
@@ -35,18 +36,7 @@ int main(int argc, char *argv[]){
 		if(!in.quit){
 			gameState.waiting=1;
 			//On attend que l'utilisateur décide de rejouer ou non
-			while(gameState.waiting && !in.quit){
-				updateInput(&in);
-			
-				if(in.keys[SDL_SCANCODE_N]){
-					in.quit=1;
-					gameState.waiting=0;
-				}
-			
-				if(in.keys[SDL_SCANCODE_Y]){
-					gameState.waiting=0;
-				}
-			}
+			endGameLoop(&in,&gameState);
 		}
 	}
 	endGame(&screen);   
