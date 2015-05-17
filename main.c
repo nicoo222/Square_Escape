@@ -4,8 +4,7 @@
 #include "gameLoop.h"
 #include "gameStructures.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
 	Character character;
 	Enemies enemies;
 	GameState gameState;
@@ -27,26 +26,14 @@ int main(int argc, char *argv[])
 	// Durée de la boucle de jeu en ms
 	// 17 correspond envirron à 60 fps
 	screen.frameDuration = 17;
-	
-	playLoop (&in,&gameState,&frame,&character,&enemies,&collision,&screen);
-	
-
+	while(!in.quit){
 		
-	//Pour une raison une ou autre la partie en cours s'est arretée
-	if(!in.quit){
-		gameState.waiting=1;
-		//Pause
-		if(gameState.pause){
-			while(gameState.waiting && !in.quit){
-				updateInput(&in);
-				if(in.keys[SDL_SCANCODE_P]){
-					gameState.waiting=0;
-					in.keys[SDL_SCANCODE_P]=0;
-				}
-			}
-		}
-		//Fin de partie
-		else {
+		playLoop (&in,&gameState,&frame,&character,&enemies,&collision,&screen);
+
+			
+		//Pour une raison une ou autre la partie en cours s'est arretée
+		if(!in.quit){
+			gameState.waiting=1;
 			//On attend que l'utilisateur décide de rejouer ou non
 			while(gameState.waiting && !in.quit){
 				updateInput(&in);
