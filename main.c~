@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	audioInitilization();
 	
 	int frameTime, currentTime, frame = 0, delay;
-	// Durée de la boucle de jeu en ms
+	// durée de la boucle de jeu en ms
 	// 17 correspond envirron à 60 fps
 	int frameDuration = 17;
 	

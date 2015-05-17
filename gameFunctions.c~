@@ -4,7 +4,7 @@
 void gameInitialization(Screen *pScreen){
 	SDL_Surface * surface;
 	
-	putenv("SDL_VIDEO_WINDOW_POS=center"); //Pour centrer la fenêtre
+	putenv("SDL_VIDEO_WINDOW_POS=center"); //pour centrer la fenêtre
 	
 	// Initialisation de la SDL
 	if(SDL_Init(SDL_INIT_VIDEO)== -1)
