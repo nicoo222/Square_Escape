@@ -44,7 +44,7 @@ typedef struct Screen{
 	SDL_Renderer * renderer;
 	SDL_Texture * map;
 	SDL_Rect mapPosition;
-	
+	int frameDuration;
 }Screen;
 
 typedef struct GameState{
