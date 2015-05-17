@@ -119,7 +119,7 @@ void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
 		pEnemies->enemiesPosition[i].y=300;
 	}
 	
-	//Initialisation des coordonées des premiers ennemis 
+	//Initialisation des coordonées des premiers ennemis
 	pEnemies->enemiesPosition[0].x=100;
 	pEnemies->enemiesPosition[0].y=50;
 	pEnemies->enemiesPosition[1].x=200;
@@ -159,15 +159,10 @@ void enemiesCollision(Enemies *pEnemies){
 		if (pEnemies->enemiesPosition[i].x <= 0){
 			newWay = rand()%3;
 			if(pEnemies->way[i]==5) {
-				if(newWay == 0) {
-					pEnemies->way[i]=8;
-				}else if (newWay == 1){
-					pEnemies->way[i]=1;
-				}else{
-					pEnemies->way[i]=2;
-				}
+				pEnemies->way[i]=newWay?newWay:8;
 			}else if (pEnemies->way[i]==4){
 				pEnemies->way[i]=1 + rand()%2;
+				fprintf(stderr,"PUTAIN %d",pEnemies->way[i]);
 			}else if (pEnemies->way[i]==6){
 				newWay = rand()%2;
 				if(newWay == 0){
@@ -199,7 +194,7 @@ void moveEnemies(Enemies *pEnemies){
 			pEnemies->enemiesPosition[i].x+=pEnemies->speed[i]*1.41;
 		}else if(pEnemies->way[i]==2){
 			pEnemies->enemiesPosition[i].x+=pEnemies->speed[i];
-			pEnemies->enemiesPosition[i].y+=pEnemies->speed[i];
+			pEnemies->enemiesPosition[i].y-=pEnemies->speed[i];
 		}else if(pEnemies->way[i]==3){
 			pEnemies->enemiesPosition[i].y-=pEnemies->speed[i]*1.41;
 		}else if(pEnemies->way[i]==4){
