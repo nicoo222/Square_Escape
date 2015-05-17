@@ -113,17 +113,19 @@ void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
 	for(i=0;i<MAX_ENEMIES;i++){
 		pEnemies->enemies[i]=SDL_CreateTextureFromSurface(pScreen->renderer,surface);
 		SDL_QueryTexture(pEnemies->enemies[i], NULL, NULL, &(pEnemies->enemiesPosition[i].w), &(pEnemies->enemiesPosition[i].h));
-		pEnemies->way[i]=1;
+		pEnemies->way[i]=rand()%3 + 4;
 		pEnemies->speed[i]=3;
-		pEnemies->enemiesPosition[i].x=100;
-		pEnemies->enemiesPosition[i].y=300;
+		pEnemies->enemiesPosition[i].x=900;
+		pEnemies->enemiesPosition[i].y=320;
 	}
 	
 	//Initialisation des coordonées des premiers ennemis
 	pEnemies->enemiesPosition[0].x=100;
 	pEnemies->enemiesPosition[0].y=50;
-	pEnemies->enemiesPosition[1].x=200;
-	pEnemies->enemiesPosition[1].y=100;
+	pEnemies->enemiesPosition[1].x=700;
+	pEnemies->enemiesPosition[1].y=500;
+	pEnemies->way[1]=rand()%8 + 1;
+	pEnemies->way[1]=rand()%8 + 1;
 	
 	pEnemies->numberOfEnemies=2;
 }

@@ -9,7 +9,6 @@ int main(int argc, char *argv[]){
 	Screen screen;
 	Collision collision;
 	Input in;
-	int frame;
 	
 	gameInitialization(&screen);
 	audioInitilization();
@@ -27,7 +26,7 @@ int main(int argc, char *argv[]){
 	
 	while(!in.quit){
 		
-		playLoop (&in,&gameState,&frame,&character,&enemies,&collision,&screen);
+		playLoop (&in,&gameState,&character,&enemies,&collision,&screen);
 
 			
 		//Pour une raison une ou autre la partie en cours s'est arretée

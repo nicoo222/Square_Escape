@@ -1,7 +1,7 @@
 #include "gameLoop.h"
 
 
-void playLoop (Input *pIn,GameState *pGameState,int *pFrame,Character *pCharacter,Enemies *pEnemies,Collision *pCollision,Screen *pScreen){
+void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Collision *pCollision,Screen *pScreen){
 
 	//Si la raison de la sortie de boucle était la fin de la partie
 
@@ -13,12 +13,14 @@ void playLoop (Input *pIn,GameState *pGameState,int *pFrame,Character *pCharacte
 	memset(pIn,0,sizeof(*pIn));
 	memset(pGameState,0,sizeof(*pGameState));
 	
+	int frame;
+	
 	while(!pGameState->pause && !pIn->quit && !pGameState->lost){
 		int frameTime = SDL_GetTicks();
-		pFrame++;
+		frame++;
 		//on ajoute un ennemi régulièrement
-		if (*pFrame%240 == 0){
-			addOneEnemy(&pEnemies);
+		if (frame%240 == 0){
+			addOneEnemy(pEnemies);
 		}
 		
 		updateInput(pIn);
