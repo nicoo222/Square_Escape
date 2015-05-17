@@ -1,6 +1,7 @@
 #ifndef gameLoop
 #define gameLoop
 
+#include "lib.h"
 #include "gameStructures.h"
 
 // boucle qui gère une partie normale
