@@ -88,7 +88,7 @@ void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies 
 		updateInput(pIn);
 		updateScreen(pCharacter,pEnemies,pScreen);
 		if(pIn->keys[SDL_SCANCODE_N]){
-			pIn->quit=1;
+			pGameState->menu=1;
 			pGameState->waiting=0;
 		}
 	
@@ -96,6 +96,14 @@ void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies 
 			pGameState->waiting=0;
 		}
 		SDL_Delay(15);
+	}
+}
+
+void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu){
+        while(pGameState->menu){
+		updateInput(pIn);
+		updateMenu(pIn,pGameState);
+		updateScreenMenu(pMenu,pScreen,pGameState);
 	}
 }
 

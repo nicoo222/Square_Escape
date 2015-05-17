@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
 	
 	gameState.menu = 1;
 	
-	fprintf(stderr,"Parce que c'est mieux avec un printf");
+	fprintf(stderr,"Parce que c'est mieux avec un printf"); // NON MAIS WTF SERIEUX ??!
 	
 	// on donne une graine pour générer des nombres random
 	srand(time());
@@ -31,25 +31,14 @@ int main(int argc, char *argv[]){
 	screen.frameDuration = 17;
 	
 	//boucle principale
-	while(!in.quit){
-	
-		if (gameState.menu) {
-			updateInput(&in);
-			updateMenu(&in,&gameState);
-			updateScreenMenu(&menu,&screen,&gameState);
-		}
-		
-		else {
-		
-			playLoop (&in,&gameState,&character,&enemies,&collision,&screen,&gameOptions);
-			
-			//Pour une raison une ou autre la partie en cours s'est arretée
-			if(!in.quit){
-				gameState.waiting=1;
-				
-				//On attend que l'utilisateur décide de rejouer ou non
-				endGameLoop(&in,&gameState,&character,&enemies,&screen);
-			}
+	while(!in.quit){	
+		menuLoop (&in, &gameState, &screen, &menu);
+		playLoop (&in,&gameState,&character,&enemies,&collision,&screen,&gameOptions);
+		//Pour une raison une ou autre la partie en cours s'est arretée
+		if(!in.quit){
+			gameState.waiting=1;
+			//On attend que l'utilisateur décide de rejouer ou non
+			endGameLoop(&in,&gameState,&character,&enemies,&screen);
 		}
 	}
 	
