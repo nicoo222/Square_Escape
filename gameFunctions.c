@@ -1,7 +1,7 @@
 #include "gameFunctions.h"
 
 /** Initialision de la SDL et de l'écran **/
-void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn){
+void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOptions *pGameOptions){
 	SDL_Surface * surface;
 	
 	putenv("SDL_VIDEO_WINDOW_POS=center"); //Pour centrer la fenêtre
@@ -36,8 +36,12 @@ void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn){
 	}
 	pScreen->map = SDL_CreateTextureFromSurface(pScreen->renderer,surface);
 	
+	// heeem il me semble que le memset ne marche pas #pascal
 	memset(pGameState,0,sizeof(*pGameState));
 	memset(pIn,0,sizeof(*pIn));
+	memset(pGameOptions,0,sizeof(*pGameOptions));
+	pGameOptions->mode = 0;
+	fprintf(stderr,"a%dz",pGameOptions->mode);
 }
 
 void audioInitilization(){

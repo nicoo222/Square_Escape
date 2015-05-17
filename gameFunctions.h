@@ -6,7 +6,7 @@
 //Prototypes des fonctions propres au jeu
 
 /** Fonction qui charge la SDL et crée une fenêtre de jeu **/
-void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn);
+void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOptions *pGameOptions);
 
 /** Met à jour les évenements du jeu **/
 void updateInput(Input * in);

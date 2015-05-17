@@ -17,19 +17,6 @@ typedef struct Input
 	int mouseMovement;
 } Input;
 
-typedef struct Character{
-	SDL_Texture * square;
-	SDL_Rect squarePosition;
-}Character;
-
-typedef struct Enemies{
-	SDL_Texture * enemies[MAX_ENEMIES];
-	SDL_Rect enemiesPosition[MAX_ENEMIES];
-	int way[MAX_ENEMIES];
-	int speed[MAX_ENEMIES];
-	int numberOfEnemies;
-}Enemies;
-
 //Gère les collisions d'un objet
 typedef struct Collision{
 	int up;
@@ -37,7 +24,6 @@ typedef struct Collision{
 	int left;
 	int right;
 }Collision;
-
 
 typedef struct Screen{
 	SDL_Window * window;
@@ -54,5 +40,28 @@ typedef struct GameState{
 	int quit;
 	double time;
 }GameState;
+
+typedef struct GameOptions{
+	int mode;
+}GameOptions;
+
+//liste des structures qui gère les objets du jeu
+typedef struct Character{
+	SDL_Texture * square;
+	SDL_Rect squarePosition;
+}Character;
+
+typedef struct Enemies{
+	SDL_Texture * enemies[MAX_ENEMIES];
+	SDL_Rect enemiesPosition[MAX_ENEMIES];
+	int way[MAX_ENEMIES];
+	int speed[MAX_ENEMIES];
+	int numberOfEnemies;
+}Enemies;
+
+typedef struct Seed{
+	SDL_Texture * seedTexture;
+	SDL_Rect seedPosition;
+}Seed;
 
 #endif
