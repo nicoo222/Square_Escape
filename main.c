@@ -22,9 +22,10 @@ int main(int argc, char *argv[])
 	memset(&gameState,0,sizeof(gameState));
 	memset(&in,0,sizeof(in));
 	
+	srand(time());
+	
 	while(!in.quit){
-
-		//Mise à 0 des des booléens des structures.
+		//Mise à 0 des des booléens des structures
 		memset(&in,0,sizeof(in));
 		memset(&gameState,0,sizeof(gameState));
 		
@@ -35,6 +36,7 @@ int main(int argc, char *argv[])
 		while(!in.keys[SDL_SCANCODE_P] && !in.quit && !gameState.lost){
 			frameTime = SDL_GetTicks();
 			frame++;
+			printf("%d",rand()%5);
 			//on ajoute un ennemy régulièrement
 			if (frame%120 == 0){
 				addOneEnemy(&enemies);

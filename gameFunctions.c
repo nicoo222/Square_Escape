@@ -34,7 +34,6 @@ void gameInitialization(Screen *pScreen){
 		fprintf(stderr,"Erreur chargement de l'image de fond\n");
 		exit(1);
 	}
-	
 	pScreen->map = SDL_CreateTextureFromSurface(pScreen->renderer,surface);
 }
 
@@ -43,10 +42,9 @@ void audioInitilization(){
 		fprintf(stderr, "SDL audio mode can't be loaded: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-	
 	Mix_VolumeMusic(MIX_MAX_VOLUME / 2); //Mettre le volume à la moitié
 	Mix_Music *musique=Mix_LoadMUS("Music/newgrounds.mp3"); //
-    Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
+	Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
 
 }
 void updateInput(Input * in){
@@ -139,27 +137,27 @@ void enemiesCollision(Enemies *pEnemies){
 		// bord de droite
 		if (pEnemies->enemiesPosition[i].x + SQUARE_WIDTH > SCREEN_WIDTH){
 			if(pEnemies->way[i]==1) {
-				pEnemies->way[i]=4 + SDL_GetTicks()%3;
+				pEnemies->way[i]=4 + rand()%3;
 			}else if (pEnemies->way[i]==2){
-				pEnemies->way[i]=4 + SDL_GetTicks()%2;
+				pEnemies->way[i]=4 + rand()%2;
 			}else{
-				pEnemies->way[i]=5 + SDL_GetTicks()%2;
+				pEnemies->way[i]=5 + rand()%2;
 			}
 		}
 		// bord du haut
 		if (pEnemies->enemiesPosition[i].y <= 0){
 			if(pEnemies->way[i]==3) {
-				pEnemies->way[i]=6 + SDL_GetTicks()%3;
+				pEnemies->way[i]=6 + rand()%3;
 			}else if (pEnemies->way[i]==2){
-				pEnemies->way[i]=7 + SDL_GetTicks()%2;
+				pEnemies->way[i]=7 + rand()%2;
 			}else{
-				pEnemies->way[i]=6 + SDL_GetTicks()%2;
+				pEnemies->way[i]=6 + rand()%2;
 			}
 		}
 		// bord de gauche
 		int newWay;
 		if (pEnemies->enemiesPosition[i].x <= 0){
-			newWay = SDL_GetTicks()%3;
+			newWay = rand()%3;
 			if(pEnemies->way[i]==5) {
 				if(newWay == 0) {
 					pEnemies->way[i]=8;
@@ -169,9 +167,9 @@ void enemiesCollision(Enemies *pEnemies){
 					pEnemies->way[i]=2;
 				}
 			}else if (pEnemies->way[i]==4){
-				pEnemies->way[i]=1 + SDL_GetTicks()%2;
+				pEnemies->way[i]=1 + rand()%2;
 			}else{
-				newWay = SDL_GetTicks()%2;
+				newWay = rand()%2;
 				if(newWay == 0){
 					pEnemies->way[i]=8;
 				}else{
@@ -183,11 +181,11 @@ void enemiesCollision(Enemies *pEnemies){
 		// bord du bas
 		if (pEnemies->enemiesPosition[i].y + SQUARE_HEIGHT > SCREEN_HEIGHT){
 			if(pEnemies->way[i]==7) {
-				pEnemies->way[i]=2 + SDL_GetTicks()%3;
+				pEnemies->way[i]=2 + rand()%3;
 			}else if (pEnemies->way[i]==6){
-				pEnemies->way[i]=3 + SDL_GetTicks()%2;
+				pEnemies->way[i]=3 + rand()%2;
 			}else{
-				pEnemies->way[i]=2 + SDL_GetTicks()%2;
+				pEnemies->way[i]=2 + rand()%2;
 			}
 		}
 	}
