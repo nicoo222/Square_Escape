@@ -162,7 +162,6 @@ void enemiesCollision(Enemies *pEnemies){
 				pEnemies->way[i]=newWay?newWay:8;
 			}else if (pEnemies->way[i]==4){
 				pEnemies->way[i]=1 + rand()%2;
-				fprintf(stderr,"PUTAIN %d",pEnemies->way[i]);
 			}else if (pEnemies->way[i]==6){
 				newWay = rand()%2;
 				if(newWay == 0){
