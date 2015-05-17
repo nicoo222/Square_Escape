@@ -10,11 +10,8 @@ int main(int argc, char *argv[]){
 	Collision collision;
 	Input in;
 	
-	gameInitialization(&screen);
 	audioInitilization();
-	
-	memset(&gameState,0,sizeof(gameState));
-	memset(&in,0,sizeof(in));
+	gameInitialization(&screen,&gameState,&in);
 	
 	// on donne une draine pour générer des nombres random
 	srand(time());

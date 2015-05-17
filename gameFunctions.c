@@ -1,7 +1,7 @@
 #include "gameFunctions.h"
 
 /** Initialision de la SDL et de l'écran **/
-void gameInitialization(Screen *pScreen){
+void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn){
 	SDL_Surface * surface;
 	
 	putenv("SDL_VIDEO_WINDOW_POS=center"); //Pour centrer la fenêtre
@@ -20,14 +20,14 @@ void gameInitialization(Screen *pScreen){
                           SCREEN_WIDTH, SCREEN_HEIGHT,
                           SDL_WINDOW_OPENGL);
    
-    //Création du renderer
-    pScreen->renderer = NULL;
-    
-    if((pScreen->renderer =  SDL_CreateRenderer( pScreen->window, 0, SDL_RENDERER_ACCELERATED))== NULL){
-    	fprintf(stderr, "Erreur chargement de l'écran: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-    }
+	//Création du renderer
+	pScreen->renderer = NULL;
 	
+	if((pScreen->renderer =  SDL_CreateRenderer( pScreen->window, 0, SDL_RENDERER_ACCELERATED))== NULL){
+	    fprintf(stderr, "Erreur chargement de l'écran: %s\n", SDL_GetError());
+		    exit(EXIT_FAILURE);
+	}
+	    
 	surface = SDL_LoadBMP("Pictures/fond.bmp");
 	
 	if (surface == NULL){
@@ -35,6 +35,9 @@ void gameInitialization(Screen *pScreen){
 		exit(1);
 	}
 	pScreen->map = SDL_CreateTextureFromSurface(pScreen->renderer,surface);
+	
+	memset(pGameState,0,sizeof(*pGameState));
+	memset(pIn,0,sizeof(*pIn));
 }
 
 void audioInitilization(){
