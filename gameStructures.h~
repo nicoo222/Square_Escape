@@ -38,7 +38,7 @@ typedef struct GameState{
 	int waiting;
 	int pause;
 	int quit;
-	int menu;
+	int menuChoix;
 	int choice;
 	double time;
 }GameState;

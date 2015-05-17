@@ -17,7 +17,6 @@ int main(int argc, char *argv[]){
 	gameInitialization(&screen,&gameState,&in,&gameOptions);
 	
 	loadMenu(&menu, &screen);
-	updateScreenMenu(&menu,&screen,&gameState);
 	
 	gameState.menu = 1;
 	
