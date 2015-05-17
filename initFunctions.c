@@ -40,7 +40,6 @@ void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOpt
 	memset(pIn,0,sizeof(*pIn));
 	memset(pGameOptions,0,sizeof(*pGameOptions));
 	pGameOptions->mode = 0;
-	fprintf(stderr,"a%dz",pGameOptions->mode);
 }
 
 void audioInitilization(){

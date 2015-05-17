@@ -7,19 +7,19 @@ void updateInput(Input * in){
     while(SDL_PollEvent(&event)){
 		switch(event.type){
 	        case SDL_WINDOWEVENT:
-				if(event.window.event == SDL_WINDOWEVENT_CLOSE){
-				        in->quit = 1;
+			if(event.window.event == SDL_WINDOWEVENT_CLOSE){
+				in->quit = 1;
 		        }
 				break;
-			case SDL_KEYDOWN:
-            	in->keys[event.key.keysym.scancode]=1;
+		case SDL_KEYDOWN:
+			in->keys[event.key.keysym.scancode]=1;
 				break;
-			case SDL_KEYUP:
-            	in->keys[event.key.keysym.scancode]=0;
+		case SDL_KEYUP:
+			in->keys[event.key.keysym.scancode]=0;
 				break;
 			default : 
 				break;
-	    }
+		}
 	}
 }
 
@@ -36,7 +36,7 @@ void characterCollision(Character *pCharacter, Enemies *pEnemies, Collision *pCo
 	
 	//Collision bords de l'écran
 	if (pCharacter->squarePosition.x < 0) pCollision->left=1;
-	if (pCharacter->squarePosition.y<0) pCollision->up=1;
+	if (pCharacter->squarePosition.y < 0) pCollision->up=1;
 	if (pCharacter->squarePosition.x + SQUARE_WIDTH > SCREEN_WIDTH ) pCollision->right=1;
 	if (pCharacter->squarePosition.y + SQUARE_HEIGHT > SCREEN_HEIGHT) pCollision->down=1;
 	
