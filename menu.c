@@ -91,6 +91,5 @@ void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate){
 	}
 	
 	//On réaffiche le tout 
-    SDL_RenderPresent(pScreen->renderer);
-
+	SDL_RenderPresent(pScreen->renderer);
 }

@@ -9,7 +9,7 @@ void updateInput(Input * in){
 	        case SDL_WINDOWEVENT:
 			if(event.window.event == SDL_WINDOWEVENT_CLOSE){
 				in->quit = 1;
-		        }
+			}
 				break;
 		case SDL_KEYDOWN:
 			in->keys[event.key.keysym.scancode]=1;

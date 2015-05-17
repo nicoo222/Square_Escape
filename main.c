@@ -30,18 +30,15 @@ int main(int argc, char *argv[]){
 	// 17 correspond envirron à 60 fps
 	screen.frameDuration = 17;
 	
+	//Mise à 0 des des booléens des structures
+	memset(&in,0,sizeof(in));
+	memset(&gameState,0,sizeof(gameState));
+	
 	//boucle principale
 	while(!in.quit){	
 		menuLoop (&in, &gameState, &screen, &menu);
 		playLoop (&in,&gameState,&character,&enemies,&collision,&screen,&gameOptions);
-		//Pour une raison une ou autre la partie en cours s'est arretée
-		if(!in.quit){
-			gameState.waiting=1;
-			//On attend que l'utilisateur décide de rejouer ou non
-			endGameLoop(&in,&gameState,&character,&enemies,&screen);
-		}
 	}
-	
 	endGame(&screen);
 	
 	return EXIT_SUCCESS;

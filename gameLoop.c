@@ -8,12 +8,9 @@ void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 	characterInitialization(pCharacter,pScreen);
 	enemiesInitialization(pEnemies,pScreen);
 	updateScreen(pCharacter,pEnemies,pScreen);
-	
-	//Mise à 0 des des booléens des structures
-	memset(pIn,0,sizeof(*pIn));
-	memset(pGameState,0,sizeof(*pGameState));
-	
 	int frame;
+	pGameState->lost=0;
+	
 	if (pGameOptions->mode == 0){
 		while(!pGameState->pause && !pIn->quit && !pGameState->lost){
 			int frameTime = SDL_GetTicks();
@@ -30,20 +27,20 @@ void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 					pCharacter->squarePosition.y-=6;
 				}
 			}
-		
+			
 			if (pIn->keys[SDL_SCANCODE_LEFT]){
 				if(!pCollision->left){
 					pCharacter->squarePosition.x-=6;
 				}
 					
 			}
-
+			
 			if (pIn->keys[SDL_SCANCODE_DOWN]){
 				if(!pCollision->down){
 					pCharacter->squarePosition.y+=6;
 				}
 			}
-
+			
 			if(pIn->keys[SDL_SCANCODE_RIGHT]){
 			  if(!pCollision->right){
 					pCharacter->squarePosition.x+=6;
@@ -54,10 +51,6 @@ void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 				pGameState->pause=1; 		
 				pIn->keys[SDL_SCANCODE_P]=0;
 			}
-			
-			checkCollision(pCharacter,pEnemies,pCollision,pGameState);
-			moveEnemies(pEnemies);
-			updateScreen(pCharacter,pEnemies,pScreen);
 			
 			//Pause
 			if(pGameState->pause){
@@ -72,6 +65,10 @@ void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 				}
 			}
 			
+			checkCollision(pCharacter,pEnemies,pCollision,pGameState);
+			moveEnemies(pEnemies);
+			updateScreen(pCharacter,pEnemies,pScreen);
+			
 			//Code pour attendre une durée de frame fixe
 			int currentTime = SDL_GetTicks();
 			int delay = pScreen->frameDuration - currentTime + frameTime;
@@ -79,6 +76,12 @@ void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 			if (delay > 0) {
 				SDL_Delay(delay);
 			}
+			//Pour une raison une ou autre la partie en cours s'est arretée
+		}
+		if(!pIn->quit){
+			pGameState->waiting=1;
+			//On attend que l'utilisateur décide de rejouer ou non
+			endGameLoop(pIn,pGameState,pCharacter,pEnemies,pScreen);
 		}
 	}
 }
@@ -91,7 +94,7 @@ void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies 
 			pGameState->menu=1;
 			pGameState->waiting=0;
 		}
-	
+		
 		if(pIn->keys[SDL_SCANCODE_Y]){
 			pGameState->waiting=0;
 		}
@@ -100,7 +103,7 @@ void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies 
 }
 
 void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu){
-        while(pGameState->menu){
+        while(pGameState->menu && !pIn->quit){
 		updateInput(pIn);
 		updateMenu(pIn,pGameState);
 		updateScreenMenu(pMenu,pScreen,pGameState);
