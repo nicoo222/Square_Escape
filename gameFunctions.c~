@@ -1,6 +1,6 @@
 #include "gameFunctions.h"
 
-/** Initialision de la SDL et de l'écran **/
+
 void gameInitialization(Screen *pScreen){
 	SDL_Surface * surface;
 	
