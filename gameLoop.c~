@@ -73,7 +73,7 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 		}
 	}
 	//Pour une raison une ou autre la partie en cours s'est arretée
-	if(pGameState->lost){
+	if(pGameState->pause){
 		pGameState->waiting=1;
 		//Petit son de défaite 
 		Mix_PauseMusic(); 
