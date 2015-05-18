@@ -10,7 +10,6 @@
 typedef struct MusicManager{
 	Mix_Music * music [MAX_MUSIC]; //Les musiques
 	Mix_Chunk * sound [MAX_SOUND]; //Les sons courts
-	int currentMusic; //Permet de savoir quelle musique est en cours de lecture
 }MusicManager;
 
 typedef struct Input{

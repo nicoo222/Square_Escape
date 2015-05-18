@@ -39,7 +39,7 @@ int main(int argc, char *argv[]){
 	//boucle principale
 	while(!in.quit){	
 		menuLoop (&in, &gameState, &screen, &menu);
-		playLoop (&in,&gameState,&character,&enemies,&collision,&screen,&gameOptions,&musicManager);
+		playLoop (&in,&gameState,&character,&enemies,&collision,&screen,&gameOptions);
 	}
 	endGame(&screen,&musicManager);
 	

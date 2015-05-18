@@ -12,6 +12,6 @@
 #define DEFAULT_MUSIC 1
 #define MAX_ENEMIES 40
 #define MAX_MUSIC 2
-#define MAX_SOUND 1
+#define MAX_SOUND 2
 
 #endif

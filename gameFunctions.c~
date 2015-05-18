@@ -153,7 +153,7 @@ void endGame(Screen *pScreen,MusicManager *pMusicManager){
 	}
 	
 	for(i=0;i<MAX_SOUND;i++){
-		Mix_FreeChunk(pMusicManager->sound[i]); //Libération des pointeurs de l'API mixer
+		Mix_FreeChunk(pMusicManager->music[i]); //Libération des pointeurs de l'API mixer
 	}
 	
 	Mix_CloseAudio();
