@@ -13,7 +13,7 @@ void addEnemy(Enemies * enemies);
 void enemiesCollision(Enemies *pEnemies);
 void moveEnemies(Enemies *pEnemies);
 void endGame(Screen *pScreen,MusicManager *pMusicManager);
-
+void moveCharacter(Input* pIn,Collision* pCollision,Character* pCharacter);
 
 
 #endif

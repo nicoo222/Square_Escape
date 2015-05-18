@@ -159,3 +159,30 @@ void endGame(Screen *pScreen,MusicManager *pMusicManager){
 	Mix_CloseAudio();
     SDL_Quit();  
 }
+
+void moveCharacter(Input* pIn,Collision* pCollision,Character* pCharacter){
+	if (pIn->keys[SDL_SCANCODE_UP]){
+		if(!pCollision->up){
+			pCharacter->squarePosition.y-=6;
+		}
+	}
+	
+	if (pIn->keys[SDL_SCANCODE_LEFT]){
+		if(!pCollision->left){
+			pCharacter->squarePosition.x-=6;
+		}
+			
+	}
+	
+	if (pIn->keys[SDL_SCANCODE_DOWN]){
+		if(!pCollision->down){
+			pCharacter->squarePosition.y+=6;
+		}
+	}
+	
+	if(pIn->keys[SDL_SCANCODE_RIGHT]){
+	  if(!pCollision->right){
+			pCharacter->squarePosition.x+=6;
+		}
+	}
+}
