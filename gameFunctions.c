@@ -50,7 +50,6 @@ void characterCollision(Character *pCharacter, Enemies *pEnemies, Collision *pCo
 			pGameState->lost=1;
 		}
 	}
-
 }
 
 void enemiesCollision(Enemies *pEnemies){
