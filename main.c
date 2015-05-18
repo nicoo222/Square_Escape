@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
 	
 	gameState.menu = 1;
 	
-	//fprintf(stderr,"Parce que c'est mieux avec un printf"); // NON MAIS WTF SERIEUX ??!
+	fprintf(stderr,"Parce que c'est mieux avec un printf"); // NON MAIS WTF SERIEUX ??!
 	
 	// on donne une graine pour générer des nombres random
 	srand(time());
