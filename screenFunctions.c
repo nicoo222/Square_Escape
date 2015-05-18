@@ -12,10 +12,9 @@ void updateScreen(Character *pCharacter,Enemies *pEnemies,Screen *pScreen){
 	SDL_RenderCopy(pScreen->renderer,pCharacter->square,NULL,&pCharacter->squarePosition); // Copie du sprite grâce au SDL_Renderer
 	
 	for(i=0;i<pEnemies->numberOfEnemies;i++){
-		SDL_RenderCopy(pScreen->renderer,pEnemies->enemies[i],NULL,&(pEnemies->enemiesPosition[i])); 
+		SDL_RenderCopy(pScreen->renderer,pEnemies->enemies[i],NULL,&(pEnemies->enemiesPosition[i]));
 	}
 	
 	//On réaffiche le tout 
-    SDL_RenderPresent(pScreen->renderer);
- 
+	SDL_RenderPresent(pScreen->renderer);
 }

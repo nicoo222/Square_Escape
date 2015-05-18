@@ -58,8 +58,8 @@ void audioInitilization(MusicManager *pMusicManager){
 	
 	
 	//Chargement des musiques
-	pMusicManager->music[0] = Mix_LoadMUS("Music/FunkAttitude.mp3"); 
-	pMusicManager->music[1] = Mix_LoadMUS("Music/Newgrounds.mp3"); 
+	pMusicManager->music[0] = Mix_LoadMUS("Music/FunkAttitude.wav"); 
+	pMusicManager->music[1] = Mix_LoadMUS("Music/Newgrounds.wav"); 
 	
 	for(i=0;i<MAX_MUSIC;i++){
 		if(pMusicManager->music[i]==NULL){
