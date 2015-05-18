@@ -45,7 +45,7 @@ void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOpt
 void audioInitilization(MusicManager *pMusicManager){
 	int i;
 	
-	if(Mix_Init(MIX_INIT_MP3) == -1){
+	if(Mix_Init(MIX_INIT_MP3)==NULL){
 		fprintf(stderr, "Probleme initialisation de l'API SDL_Mixer %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
