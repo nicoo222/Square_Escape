@@ -156,8 +156,8 @@ void endGame(Screen *pScreen,MusicManager *pMusicManager,TTFManager * pTTFManage
 		Mix_FreeChunk(pMusicManager->sound[i]); //Libération des pointeurs de l'API mixer
 	}
 	
-	TTF_CloseFont(pTTFManager->font);
 	TTF_Quit(); 
+	TTF_CloseFont(pTTFManager->font);
 	Mix_CloseAudio();
     SDL_Quit();  
 }

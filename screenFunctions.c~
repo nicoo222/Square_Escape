@@ -15,7 +15,7 @@ void updateScreen(Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFMan
 		SDL_RenderCopy(pScreen->renderer,pEnemies->enemies[i],NULL,&(pEnemies->enemiesPosition[i]));
 	}
 	
-    SDL_RenderCopy(pScreen->renderer, pTTFManager->time, NULL, &pTTFManager->timeRec);
+    SDL_RenderCopy(pScreen->renderer, pTTFManager->time, NULL, pTTFManager->timeRec);
     
 	//On réaffiche le tout 
 	SDL_RenderPresent(pScreen->renderer);

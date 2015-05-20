@@ -12,7 +12,7 @@ void characterCollision(Character *pCharacter, Enemies *pEnemies, Collision * pC
 void addEnemy(Enemies * enemies);
 void enemiesCollision(Enemies *pEnemies);
 void moveEnemies(Enemies *pEnemies);
-void endGame(Screen *pScreen,MusicManager *pMusicManager,TTFManager * pTTFManager);
+void endGame(Screen *pScreen,MusicManager *pMusicManager);
 void moveCharacter(Input* pIn,Collision* pCollision,Character* pCharacter);
 
 

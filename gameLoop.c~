@@ -9,7 +9,7 @@ void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 	pGameState->lost=0;
 	
 	if (pGameOptions->mode == 0){
-		mode0Loop(pIn,pGameState,pCharacter,pEnemies,pScreen,pCollision,pMusicManager,pTTFManager);
+		mode0Loop(pIn,pGameState,pCharacter,pEnemies,pScreen,pCollision,pMusicManager,TTFManager * pTTFManager);
 	}
 }
 

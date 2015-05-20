@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
 	}
 	
 	//Fin du jeu, une fois qu'on quitte le menu
-	endGame(&screen,&musicManager,&ttfManager);
+	endGame(&screen,&musicManager);
 	
 	return EXIT_SUCCESS;
 }
