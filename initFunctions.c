@@ -110,7 +110,12 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
     
 	surface = TTF_RenderText_Blended(pTTFManager->font,text,color);
 	pTTFManager->time = SDL_CreateTextureFromSurface(pScreen->renderer, surface);
-
+	
+	if(pTTFManager->time == NULL){
+		fprintf(stderr,"Erreur création de la texture du texte. \n");
+		exit(1);
+	}
+	
 	pTTFManager->timeRec.x=20;
 	pTTFManager->timeRec.y=20;
 	pTTFManager->timeRec.h=50;
@@ -133,21 +138,31 @@ void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
 		exit(1);
 	}
     
-	//Initialisation des premiers ennemis
+	//Initialisation des ennemis
 	for(i=0;i<MAX_ENEMIES;i++){
 		pEnemies->enemies[i]=SDL_CreateTextureFromSurface(pScreen->renderer,surface);
+		
+		if(pEnemies->enemies[i] == NULL){
+			fprintf(stderr,"Erreur chargement de création de la texture de l'ennemi %d.\n",i);
+			exit(1);
+		}
+    
 		SDL_QueryTexture(pEnemies->enemies[i], NULL, NULL, &(pEnemies->enemiesPosition[i].w), &(pEnemies->enemiesPosition[i].h));
+		
+		//Vitesse et direction de base 
 		pEnemies->way[i]=rand()%3 + 4;
 		pEnemies->speed[i]=3;
 		pEnemies->enemiesPosition[i].x=900;
 		pEnemies->enemiesPosition[i].y=320;
 	}
 	
-	//Initialisation des coordonées des premiers ennemis
+	//Initialisation des coordonnées des premiers ennemis (2 au départ par défault)
 	pEnemies->enemiesPosition[0].x=100;
 	pEnemies->enemiesPosition[0].y=50;
 	pEnemies->enemiesPosition[1].x=700;
 	pEnemies->enemiesPosition[1].y=500;
+	
+	//Direction de mouvement aléatoire
 	pEnemies->way[1]=rand()%8 + 1;
 	pEnemies->way[1]=rand()%8 + 1;
 	

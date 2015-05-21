@@ -16,7 +16,7 @@ typedef struct MusicManager{
 typedef struct TTFManager{
 	SDL_Texture * score;
 	SDL_Texture * time;
-	SDL_Texture* actualTime;
+	SDL_Texture * actualTime;
 	SDL_Texture * playAgain;
 	SDL_Rect timeRec;
 	SDL_Rect actualTimeRec;

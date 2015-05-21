@@ -12,7 +12,7 @@ void audioInitialization(MusicManager *pMusicManager);
 /** Chargement du module pour afficher du texte **/
 void ttfInitialization(Screen * pScreen,TTFManager * pTTFManager);
 
-/**Initialization des ennemis **/
+/**Initialisation des ennemis **/
 void enemiesInitialization(Enemies *pEnemies,Screen *pScreen);
 
 /**Initialisation du cube personnage **/
