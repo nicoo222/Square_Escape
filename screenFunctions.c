@@ -21,18 +21,16 @@ void updateScreen(Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFMan
 	SDL_RenderPresent(pScreen->renderer);
 }
 
-void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager *pTimeManager,long* pDebut){
+void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTimeManager){
 	SDL_Color color={255, 255, 255};
 	SDL_Surface* surface;
 	
-	char date[10] = "";
+	char date[10] = "";	
 	
-	printf("Total : %ld\n",pTimeManager->gameTime);
+	//Le temps de jeu écoulé
 	
-	
-	//Différence entre le temps écoulé - le temps de pause total
-	long seconde = pTimeManager->gameTime/1000;
-	sprintf(date, "%ld", seconde);
+	pTimeManager->playingTime = ((long) (SDL_GetTicks() - pTimeManager->debutTicks))/1000;
+	sprintf(date, "%ld", pTimeManager->playingTime);
 
 	surface = TTF_RenderText_Blended(pTTFManager->font,date,color);
 	

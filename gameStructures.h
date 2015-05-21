@@ -14,7 +14,8 @@ typedef struct MusicManager{
 }MusicManager;
 
 typedef struct TimeManager{
-	long gameTime;
+	long debutTicks;
+	long playingTime;
 }TimeManager;
 
 typedef struct TTFManager{
@@ -79,11 +80,6 @@ typedef struct Enemies{
 	int speed[MAX_ENEMIES];
 	int numberOfEnemies;
 }Enemies;
-
-typedef struct Seed{
-	SDL_Texture * seedTexture;
-	SDL_Rect seedPosition;
-}Seed;
 
 typedef struct Menu{
 	SDL_Texture *Start[2];

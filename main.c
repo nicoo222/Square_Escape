@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
 	fprintf(stderr,"Parce qu'avec un printf ça marche\n"); // NON MAIS WTF SERIEUX ??!
 	
 	// on donne une graine pour générer des nombres random
-	srand(time());
+	srand(time(NULL));
 	
 	// Durée de la boucle de jeu en ms
 	// 17 correspond envirron à 60 fps

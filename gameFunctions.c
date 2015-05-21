@@ -2,20 +2,20 @@
 
 /** Initialision de la SDL et de l'écran **/
 
-void updateInput(Input * in){
+void updateInput(Input* pIn){
 	SDL_Event event;
 	while(SDL_PollEvent(&event)){
 		switch(event.type){
 		case SDL_WINDOWEVENT:
 			if(event.window.event == SDL_WINDOWEVENT_CLOSE){
-				in->quit = 1;
+				pIn->quit = 1;
 			}
 				break;
 			case SDL_KEYDOWN:
-				in->keys[event.key.keysym.scancode]=1;
+				pIn->keys[event.key.keysym.scancode]=1;
 				break;
 			case SDL_KEYUP:
-				in->keys[event.key.keysym.scancode]=0;
+				pIn->keys[event.key.keysym.scancode]=0;
 				break;
 			default : 
 				break;
