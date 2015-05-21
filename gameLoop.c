@@ -13,10 +13,10 @@ void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 	}
 }
 
-void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen){
+void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager){
 	while(pGameState->waiting && !pIn->quit){
 		updateInput(pIn);
-		updateScreen(pCharacter,pEnemies,pScreen);
+		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
 		if(pIn->keys[SDL_SCANCODE_N]){
 			pGameState->menu=1;
 			pGameState->waiting=0;
@@ -34,16 +34,18 @@ void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu){
 		updateInput(pIn);
 		updateMenu(pIn,pGameState);
 		updateScreenMenu(pMenu,pScreen,pGameState);
+		SDL_Delay(15);
 	}
 }
 
 void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,Collision *pCollision,MusicManager *pMusicManager,TTFManager * pTTFManager){
 	int frame = 0;
+	long debut = (long) SDL_GetTicks()/1000;
 	
 	while(!pGameState->pause && !pIn->quit && !pGameState->lost){
 		int frameTime = SDL_GetTicks();
 		frame++;
-		updateTTFManager(pScreen,pTTFManager);
+		updateTTFManager(pScreen,pTTFManager, &debut);
 		//on ajoute un ennemi régulièrement
 		if (frame%240 == 0){
 			addOneEnemy(pEnemies);
@@ -82,7 +84,7 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 		Mix_PlayChannel(1, pMusicManager->sound[0], 0);
 		
 		//On attend que l'utilisateur décide de rejouer ou non
-		endGameLoop(pIn,pGameState,pCharacter,pEnemies,pScreen);
+		endGameLoop(pIn,pGameState,pCharacter,pEnemies,pScreen,pTTFManager);
 	}
 }
 

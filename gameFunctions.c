@@ -23,13 +23,13 @@ void updateInput(Input * in){
 	}
 }
 
-void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager){
+void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,long* pDebut){
 	SDL_Color color={255, 255, 255};
 	SDL_Surface* surface;
 	
 	char date[10] = "";
 	
-	long seconde = (long) SDL_GetTicks()/1000;
+	long seconde = (long) SDL_GetTicks()/1000 - *pDebut;
 	sprintf(date, "%d", seconde);
 
 	surface = TTF_RenderText_Blended(pTTFManager->font,date,color);

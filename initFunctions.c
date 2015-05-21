@@ -117,7 +117,7 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	pTTFManager->timeRec.w=100;
 	pTTFManager->actualTimeRec.x=120;
 	pTTFManager->actualTimeRec.y=30;
-	pTTFManager->actualTimeRec.h=40;
+	pTTFManager->actualTimeRec.h=35;
 	pTTFManager->actualTimeRec.w=80;
 	
 }
