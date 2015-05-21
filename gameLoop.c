@@ -38,11 +38,12 @@ void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu){
 }
 
 void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,Collision *pCollision,MusicManager *pMusicManager,TTFManager * pTTFManager){
-  	int frame = 0;
-  	
+	int frame = 0;
+	
 	while(!pGameState->pause && !pIn->quit && !pGameState->lost){
 		int frameTime = SDL_GetTicks();
 		frame++;
+		updateTTFManager(pScreen,pTTFManager);
 		//on ajoute un ennemi régulièrement
 		if (frame%240 == 0){
 			addOneEnemy(pEnemies);

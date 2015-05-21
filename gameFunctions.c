@@ -3,17 +3,17 @@
 /** Initialision de la SDL et de l'écran **/
 
 void updateInput(Input * in){
-    SDL_Event event;
-    while(SDL_PollEvent(&event)){
+	SDL_Event event;
+	while(SDL_PollEvent(&event)){
 		switch(event.type){
-	        case SDL_WINDOWEVENT:
+		case SDL_WINDOWEVENT:
 			if(event.window.event == SDL_WINDOWEVENT_CLOSE){
 				in->quit = 1;
 			}
 				break;
 			case SDL_KEYDOWN:
 				in->keys[event.key.keysym.scancode]=1;
-					break;
+				break;
 			case SDL_KEYUP:
 				in->keys[event.key.keysym.scancode]=0;
 				break;
@@ -21,6 +21,21 @@ void updateInput(Input * in){
 				break;
 		}
 	}
+}
+
+void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager){
+	SDL_Color color={255, 255, 255};
+	SDL_Surface* surface;
+	
+	char date[10] = "";
+	
+	long seconde = (long) SDL_GetTicks()/1000;
+	sprintf(date, "%d", seconde);
+
+	surface = TTF_RenderText_Blended(pTTFManager->font,date,color);
+	
+	pTTFManager->actualTime = SDL_CreateTextureFromSurface(pScreen->renderer, surface);
+	
 }
 
 void checkCollision(Character *pCharacter,Enemies *pEnemies,Collision *pCollision,GameState * pGameState){

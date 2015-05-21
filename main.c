@@ -1,7 +1,7 @@
 #include "lib.h"
 
 
-//gcc main.c initFunctions.c gameFunctions.c screenFunctions.c  gameLoop.c menu.c -lSDL2 -lSDL2_mixer -o game
+// gcc main.c initFunctions.c gameFunctions.c screenFunctions.c  gameLoop.c menu.c -lSDL2 -lSDL2_mixer -lSDL2_ttf -o game
 int main(int argc, char *argv[]){
 
 	//Création des structures de jeu
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
 	loadMenu(&menu, &screen);
 	updateScreenMenu(&menu,&screen,&gameState);
 	
-	fprintf(stderr,"Parce que c'est mieux avec un printf"); // NON MAIS WTF SERIEUX ??!
+	fprintf(stderr,"Parce qu'avec un printf ça marche\n"); // NON MAIS WTF SERIEUX ??!
 	
 	// on donne une graine pour générer des nombres random
 	srand(time());

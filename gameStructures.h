@@ -14,11 +14,13 @@ typedef struct MusicManager{
 }MusicManager;
 
 typedef struct TTFManager{
-  	SDL_Texture * score;
-    SDL_Texture * time;
-    SDL_Texture * playAgain;
-    SDL_Rect timeRec;
-    TTF_Font *font;
+	SDL_Texture * score;
+	SDL_Texture * time;
+	SDL_Texture* actualTime;
+	SDL_Texture * playAgain;
+	SDL_Rect timeRec;
+	SDL_Rect actualTimeRec;
+	TTF_Font *font;
 }TTFManager;
 
 typedef struct Input{

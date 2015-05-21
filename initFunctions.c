@@ -93,21 +93,20 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	SDL_Color color={255, 255, 255};
 	SDL_Surface * surface;
 	
-	if(TTF_Init() == -1)
-    {
-    	fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
-    	exit(1);
-    }
+	if(TTF_Init() == -1){
+	fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+	exit(1);
+	}
     
 
-    pTTFManager->font = TTF_OpenFont("Font/Oetztype.ttf", 100);
+	pTTFManager->font = TTF_OpenFont("Font/Oetztype.ttf", 100);
 	
-    if(pTTFManager->font == NULL) { 
+	if(pTTFManager->font == NULL) { 
 		fprintf(stderr, "Erreur chargement de la police d'écriture : %s\n", TTF_GetError());
     	exit(1);
-	} 
-    
-    text="Temps : ";
+	}
+
+	text="Temps : ";
     
 	surface = TTF_RenderText_Blended(pTTFManager->font,text,color);
 	pTTFManager->time = SDL_CreateTextureFromSurface(pScreen->renderer, surface);
@@ -115,9 +114,14 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	pTTFManager->timeRec.x=20;
 	pTTFManager->timeRec.y=20;
 	pTTFManager->timeRec.h=50;
-	pTTFManager->timeRec.w=50;
-
+	pTTFManager->timeRec.w=100;
+	pTTFManager->actualTimeRec.x=120;
+	pTTFManager->actualTimeRec.y=30;
+	pTTFManager->actualTimeRec.h=40;
+	pTTFManager->actualTimeRec.w=80;
+	
 }
+
 void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
 	int i;
 	SDL_Surface * surface;
