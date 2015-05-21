@@ -14,6 +14,7 @@ void enemiesCollision(Enemies *pEnemies);
 void moveEnemies(Enemies *pEnemies);
 void endGame(Screen *pScreen,MusicManager *pMusicManager,TTFManager * pTTFManager);
 void moveCharacter(Input* pIn,Collision* pCollision,Character* pCharacter);
+void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,long* pDebut);
 
 
 #endif

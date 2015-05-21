@@ -32,7 +32,7 @@ void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager *pTim
 	
 	//Différence entre le temps écoulé - le temps de pause total
 	long seconde = pTimeManager->gameTime/1000;
-	sprintf(date, "%ld", seconde);
+	sprintf(date, "%d", seconde);
 
 	surface = TTF_RenderText_Blended(pTTFManager->font,date,color);
 	

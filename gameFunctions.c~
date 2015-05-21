@@ -143,6 +143,25 @@ void addOneEnemy(Enemies *pEnemies){
 	}
 }
 
+void endGame(Screen *pScreen,MusicManager *pMusicManager,TTFManager * pTTFManager){
+	int i;
+	
+	SDL_DestroyWindow(pScreen->window);
+	
+	for(i=0;i<MAX_MUSIC;i++){
+		Mix_FreeMusic(pMusicManager->music[i]); //Libération des pointeurs de l'API mixer
+	}
+	
+	for(i=0;i<MAX_SOUND;i++){
+		Mix_FreeChunk(pMusicManager->sound[i]); //Libération des pointeurs de l'API mixer
+	}
+	
+	TTF_CloseFont(pTTFManager->font);
+	TTF_Quit(); 
+	Mix_CloseAudio();
+    SDL_Quit();  
+}
+
 void moveCharacter(Input* pIn,Collision* pCollision,Character* pCharacter){
 	if (pIn->keys[SDL_SCANCODE_UP]){
 		if(!pCollision->up){
@@ -169,23 +188,3 @@ void moveCharacter(Input* pIn,Collision* pCollision,Character* pCharacter){
 		}
 	}
 }
-
-void endGame(Screen *pScreen,MusicManager *pMusicManager,TTFManager * pTTFManager){
-	int i;
-	
-	SDL_DestroyWindow(pScreen->window);
-	
-	for(i=0;i<MAX_MUSIC;i++){
-		Mix_FreeMusic(pMusicManager->music[i]); //Libération des pointeurs de l'API mixer
-	}
-	
-	for(i=0;i<MAX_SOUND;i++){
-		Mix_FreeChunk(pMusicManager->sound[i]); //Libération des pointeurs de l'API mixer
-	}
-	
-	TTF_CloseFont(pTTFManager->font);
-	TTF_Quit(); 
-	Mix_CloseAudio();
-    SDL_Quit();  
-}
-

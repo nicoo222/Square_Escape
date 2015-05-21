@@ -46,7 +46,7 @@ int main(int argc, char *argv[]){
 	while(!in.quit){	
 		menuLoop (&in, &gameState, &screen, &menu);
 		if(!in.quit){
-			playLoop(&in,&gameState,&character,&enemies,&collision,&screen,&gameOptions,&musicManager,&ttfManager,&timeManager);
+			playLoop (&in,&gameState,&character,&enemies,&collision,&screen,&gameOptions,&musicManager,&ttfManager,&timeManager);
 		}
 	}
 	
