@@ -31,7 +31,7 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 	pTimeManager->debutTicks = (long) SDL_GetTicks();
 	pTimeManager->playingTime=0;
 	
-	while(!pGameState->pause && !pIn->quit && !pGameState->lost){
+	while(!pGameState->menu && !pIn->quit && !pGameState->lost){
 		frameTime = (long) SDL_GetTicks();
 		frame++;
 		
@@ -55,6 +55,9 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 		if(pIn->keys[SDL_SCANCODE_P]){
 			pGameState->pause=1; 		
 			pIn->keys[SDL_SCANCODE_P]=0;
+		}
+		if(pIn->keys[SDL_SCANCODE_Q]){
+			pGameState->menu=1;
 		}
 		if(pGameState->pause){
 			//il faut arrêter replacer le compteur de temps après la pause
@@ -95,6 +98,10 @@ void pauseLoop(GameState* pGameState,Input* pIn,Character *pCharacter,Enemies *p
 		if(pIn->keys[SDL_SCANCODE_P]){
 			pGameState->pause=0;
 			pIn->keys[SDL_SCANCODE_P]=0;
+		}
+		if(pIn->keys[SDL_SCANCODE_Q]){
+			pGameState->pause=0;
+			pGameState->menu=1;
 		}
 		SDL_Delay(15);
 	}
