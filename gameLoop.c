@@ -85,11 +85,13 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 
 void pauseLoop(GameState* pGameState,Input* pIn,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager){
 	//On met le compteur en pause
+	updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
+	SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL1, NULL, &pTTFManager->pauseTextL1Rec);
+	SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL2, NULL, &pTTFManager->pauseTextL2Rec);
+	SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL3, NULL, &pTTFManager->pauseTextL3Rec);
 	while(pGameState->pause && !pIn->quit){
-		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
-		refreshScren(pScreen);
 		updateInput(pIn);
-		
+		SDL_RenderPresent(pScreen->renderer);
 		if(pIn->keys[SDL_SCANCODE_P]){
 			pGameState->pause=0;
 			pIn->keys[SDL_SCANCODE_P]=0;

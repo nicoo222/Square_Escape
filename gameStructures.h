@@ -19,16 +19,22 @@ typedef struct TimeManager{
 }TimeManager;
 
 typedef struct TTFManager{
-	SDL_Texture * score;
-	SDL_Texture * time;
-	SDL_Texture * playAgain;
-	SDL_Texture * BAM;
-	SDL_Texture * squareNumber;
+	SDL_Texture* score;
+	SDL_Texture* time;
+	SDL_Texture* playAgain;
+	SDL_Texture* BAM;
+	SDL_Texture* squareNumber;
+	SDL_Texture* pauseTextL1;
+	SDL_Texture* pauseTextL2;
+	SDL_Texture* pauseTextL3;
+	SDL_Rect pauseTextL1Rec;
+	SDL_Rect pauseTextL2Rec;
+	SDL_Rect pauseTextL3Rec;
 	SDL_Rect squareNumberRec;
 	SDL_Rect BAMRec;
 	SDL_Rect timeRec;
 	SDL_Rect playAgainRec;
-	TTF_Font *font;
+	TTF_Font* font;
 }TTFManager;
 
 typedef struct Input{
@@ -83,6 +89,15 @@ typedef struct Enemies{
 	int speed[MAX_ENEMIES];
 	int numberOfEnemies;
 }Enemies;
+
+typedef struct Unit{
+	SDL_Texture* texture;
+	SDL_Rect rect;
+	int chocRight;
+	int chocUp;
+	int chocLeft;
+	int chocDown;
+}Unit;
 
 typedef struct Menu{
 	SDL_Texture *Start[2];

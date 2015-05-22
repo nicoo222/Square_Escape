@@ -143,6 +143,54 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	pTTFManager->timeRec.w=100;
 }
 
+void initPauseText(Screen* pScreen, TTFManager* pTTFManager){
+	SDL_Color color={255, 255, 255};
+	char text[30] = "";
+	strcpy(text,"PAUSE");
+	SDL_Surface* pSurface;
+	pSurface = TTF_RenderText_Blended(pTTFManager->font,text,color);
+	SDL_DestroyTexture(pTTFManager->pauseTextL1);
+	pTTFManager->pauseTextL1 = SDL_CreateTextureFromSurface(pScreen->renderer, pSurface);
+	if(pTTFManager->pauseTextL1 == NULL){
+		fprintf(stderr,"Erreur création de la texture du texte. \n");
+		exit(1);
+	}
+	pTTFManager->pauseTextL1Rec.x=300;
+	pTTFManager->pauseTextL1Rec.y=150;
+	pTTFManager->pauseTextL1Rec.h=50;
+	pTTFManager->pauseTextL1Rec.w=100;
+	
+	strcpy(text,"P pour reprendre");
+	SDL_Surface* pSurface2;
+	pSurface2 = TTF_RenderText_Blended(pTTFManager->font,text,color);
+	SDL_DestroyTexture(pTTFManager->pauseTextL2);
+	pTTFManager->pauseTextL2 = SDL_CreateTextureFromSurface(pScreen->renderer, pSurface2);
+	if(pTTFManager->pauseTextL2 == NULL){
+		fprintf(stderr,"Erreur création de la texture du texte. \n");
+		exit(1);
+	}
+	pTTFManager->pauseTextL2Rec.x=200;
+	pTTFManager->pauseTextL2Rec.y=210;
+	pTTFManager->pauseTextL2Rec.h=50;
+	pTTFManager->pauseTextL2Rec.w=200;
+	
+	strcpy(text,"Q pour quitter");
+	SDL_Surface* pSurface3;
+	pSurface3 = TTF_RenderText_Blended(pTTFManager->font,text,color);
+	SDL_DestroyTexture(pTTFManager->pauseTextL3);
+	pTTFManager->pauseTextL3 = SDL_CreateTextureFromSurface(pScreen->renderer, pSurface3);
+	if(pTTFManager->pauseTextL3 == NULL){
+		fprintf(stderr,"Erreur création de la texture du texte. \n");
+		exit(1);
+	}
+	pTTFManager->pauseTextL3Rec.x=200;
+	pTTFManager->pauseTextL3Rec.y=270;
+	pTTFManager->pauseTextL3Rec.h=50;
+	pTTFManager->pauseTextL3Rec.w=200;
+	
+	SDL_FreeSurface(pSurface);
+}
+
 void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
 	int i;
 	SDL_Surface * surface;

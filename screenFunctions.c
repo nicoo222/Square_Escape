@@ -44,12 +44,11 @@ void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTim
 		exit(1);
 	}
 	
-	//strcat(text,&text[0]);
+	//Le nombre d'ennemis
 	strcpy(text,"Nombre d'ennemis : ");
 	sprintf(nombre, "%d", pEnemies->numberOfEnemies);
 	strcat(text,nombre);
 	pTTFManager->squareNumberRec.w=20*strlen(text);
-	//printf("%d",strlen());
 	SDL_Surface* pSurface2;
 	pSurface2 = TTF_RenderText_Blended(pTTFManager->font,text,color);
 	SDL_DestroyTexture(pTTFManager->squareNumber);
@@ -62,3 +61,7 @@ void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTim
 	SDL_FreeSurface(pSurface2);
 	SDL_FreeSurface(pSurface);
 }
+
+
+
+

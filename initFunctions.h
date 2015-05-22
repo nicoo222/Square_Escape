@@ -18,4 +18,7 @@ void enemiesInitialization(Enemies *pEnemies,Screen *pScreen);
 /**Initialisation du cube personnage **/
 void characterInitialization(Character *pCharacter,Screen *pScreen);
 
+/**Initialisation du texte de la pause **/
+void initPauseText(Screen* pScreen, TTFManager* pTTFManager);
+
 #endif

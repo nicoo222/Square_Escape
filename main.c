@@ -21,6 +21,7 @@ int main(int argc, char *argv[]){
 	gameInitialization(&screen,&gameState,&in,&gameOptions);
 	audioInitialization(&musicManager);
 	ttfInitialization(&screen,&ttfManager);
+	initPauseText(&screen, &ttfManager);
 
 	
 	//Chargement des images 
