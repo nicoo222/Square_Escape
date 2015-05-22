@@ -23,7 +23,8 @@ void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu){
 
 void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,Collision *pCollision,MusicManager *pMusicManager,TTFManager * pTTFManager,TimeManager *pTimeManager){
 	long frame = 0;
-	long frameTime,delay;
+	long frameTime = 0;
+	long delay = 0;
 	
 	pGameState->lost = 0;
 	pTimeManager->debutTicks = (long) SDL_GetTicks();

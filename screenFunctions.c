@@ -23,7 +23,7 @@ void updateScreen(Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFMan
 
 void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTimeManager){
 	SDL_Color color={255, 255, 255};
-	SDL_Surface* surface;
+	SDL_Surface* pSurface;
 	
 	char date[10] = "";	
 	
@@ -32,17 +32,20 @@ void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTim
 	pTimeManager->playingTime = ((long) (SDL_GetTicks() - pTimeManager->debutTicks))/1000;
 	sprintf(date, "%ld", pTimeManager->playingTime);
 
-	surface = TTF_RenderText_Blended(pTTFManager->font,date,color);
+	pSurface = TTF_RenderText_Blended(pTTFManager->font,date,color);
 	
-	if(surface == NULL){
+	if(pSurface == NULL){
 		fprintf(stderr,"Erreur création de la surface du texte du timer: %s\n",TTF_GetError());
 		exit(1);
 	}
 	
-	pTTFManager->actualTime = SDL_CreateTextureFromSurface(pScreen->renderer, surface);
+	SDL_DestroyTexture(pTTFManager->actualTime);
+	pTTFManager->actualTime = SDL_CreateTextureFromSurface(pScreen->renderer, pSurface);
+
 	
 	if(pTTFManager->actualTime == NULL){
 		fprintf(stderr,"Erreur création de la texture du texte du timer: %s\n",TTF_GetError());
 		exit(1);
 	}
+	SDL_FreeSurface(pSurface);
 }
