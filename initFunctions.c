@@ -1,4 +1,5 @@
 #include "initFunctions.h"
+#include "const.h"
 
 void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOptions *pGameOptions){
 	SDL_Surface * surface;
@@ -39,6 +40,10 @@ void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOpt
 	memset(pIn,0,sizeof(*pIn));
 	memset(pGameOptions,0,sizeof(*pGameOptions));
 	pGameOptions->mode = 0;
+	pScreen->mapRec.x=0;
+	pScreen->mapRec.y=0;
+	pScreen->mapRec.h=PLAYING_AREA_HEIGHT;
+	pScreen->mapRec.w=PLAYING_AREA_WIDTH;
 }
 
 void audioInitialization(MusicManager *pMusicManager){

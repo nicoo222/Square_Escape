@@ -36,8 +36,8 @@ void characterCollision(Character *pCharacter, Enemies *pEnemies, Collision *pCo
 	//Collision bords de l'écran
 	if (pCharacter->squarePosition.x < 0) pCollision->left=1;
 	if (pCharacter->squarePosition.y < 0) pCollision->up=1;
-	if (pCharacter->squarePosition.x + SQUARE_WIDTH > SCREEN_WIDTH ) pCollision->right=1;
-	if (pCharacter->squarePosition.y + SQUARE_HEIGHT > SCREEN_HEIGHT) pCollision->down=1;
+	if (pCharacter->squarePosition.x + SQUARE_WIDTH > PLAYING_AREA_WIDTH ) pCollision->right=1;
+	if (pCharacter->squarePosition.y + SQUARE_HEIGHT > PLAYING_AREA_HEIGHT) pCollision->down=1;
 	
 	//Collision avec un ennemi 
 	for(i=0;i<pEnemies->numberOfEnemies;i++){
@@ -58,7 +58,7 @@ void enemiesCollision(Enemies *pEnemies){
 	//#immonde
 	for(i=0;i<pEnemies->numberOfEnemies;i++){
 		// bord de droite
-		if (pEnemies->enemiesPosition[i].x + SQUARE_WIDTH > SCREEN_WIDTH){
+		if (pEnemies->enemiesPosition[i].x + SQUARE_WIDTH > PLAYING_AREA_WIDTH){
 			if(pEnemies->way[i]==1) {
 				pEnemies->way[i]=5+rand()%2*2-1;
 			}else if (pEnemies->way[i]==2){
@@ -95,7 +95,7 @@ void enemiesCollision(Enemies *pEnemies){
 			}
 		}
 		// bord du bas
-		if (pEnemies->enemiesPosition[i].y + SQUARE_HEIGHT > SCREEN_HEIGHT){
+		if (pEnemies->enemiesPosition[i].y + SQUARE_HEIGHT > PLAYING_AREA_HEIGHT){
 			if(pEnemies->way[i]==7) {
 				pEnemies->way[i]=3 + rand()%2*2-1;
 			}else if (pEnemies->way[i]==6){

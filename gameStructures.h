@@ -58,7 +58,7 @@ typedef struct Screen{
 	SDL_Window * window;
 	SDL_Renderer * renderer;
 	SDL_Texture * map;
-	SDL_Rect mapPosition;
+	SDL_Rect mapRec;
 	int frameDuration;
 }Screen;
 

@@ -5,8 +5,10 @@
 
 //Constantes globales 
 
-#define SCREEN_WIDTH 860
+#define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 640
+#define PLAYING_AREA_WIDTH 860
+#define PLAYING_AREA_HEIGHT 640
 #define SQUARE_WIDTH 48
 #define SQUARE_HEIGHT 48
 #define DEFAULT_MUSIC 1
