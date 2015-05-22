@@ -4,8 +4,9 @@
 void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Collision *pCollision,Screen *pScreen, GameOptions *pGameOptions,MusicManager *pMusicManager,TTFManager * pTTFManager,TimeManager *pTimeManager){
 	characterInitialization(pCharacter,pScreen);
 	enemiesInitialization(pEnemies,pScreen);
-	updateTTFManager(pScreen,pTTFManager,pTimeManager);
+	updateTTFManager(pScreen,pTTFManager,pTimeManager,pEnemies);
 	updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
+	refreshScren(pScreen);
 	
 	if (pGameOptions->mode == 0){
 		mode0Loop(pIn,pGameState,pCharacter,pEnemies,pScreen,pCollision,pMusicManager,pTTFManager,pTimeManager);
@@ -46,9 +47,10 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 		moveEnemies(pEnemies);
 		moveCharacter(pIn,pCollision,pCharacter);
 		//On met à jours l'affichage du temps de jeu
-		updateTTFManager(pScreen,pTTFManager,pTimeManager);
+		updateTTFManager(pScreen,pTTFManager,pTimeManager,pEnemies);
 		//On réaffiche l'ensemble
 		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
+		refreshScren(pScreen);
 		//Si on a appuyé sur p on rentre dans la boucle de pause
 		if(pIn->keys[SDL_SCANCODE_P]){
 			pGameState->pause=1; 		
@@ -85,6 +87,7 @@ void pauseLoop(GameState* pGameState,Input* pIn,Character *pCharacter,Enemies *p
 	//On met le compteur en pause
 	while(pGameState->pause && !pIn->quit){
 		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
+		refreshScren(pScreen);
 		updateInput(pIn);
 		
 		if(pIn->keys[SDL_SCANCODE_P]){
@@ -97,9 +100,11 @@ void pauseLoop(GameState* pGameState,Input* pIn,Character *pCharacter,Enemies *p
 
 void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager){
 	while(pGameState->waiting && !pIn->quit){
-		updateInput(pIn);
+	  	updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
 		SDL_RenderCopy(pScreen->renderer, pTTFManager->playAgain, NULL, &pTTFManager->playAgainRec);
-		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
+		SDL_RenderCopy(pScreen->renderer, pTTFManager->BAM, NULL, &pTTFManager->BAMRec);
+		refreshScren(pScreen);
+		updateInput(pIn);
 		if(pIn->keys[SDL_SCANCODE_N]){
 			pGameState->menu=1;
 			pGameState->waiting=0;

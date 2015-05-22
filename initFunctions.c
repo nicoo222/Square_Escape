@@ -88,7 +88,7 @@ void audioInitialization(MusicManager *pMusicManager){
 }
 
 void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
-	char * text;
+	char* text;
 	SDL_Color color={255, 255, 255};
 	SDL_Surface * surface;
 	
@@ -104,16 +104,6 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 		fprintf(stderr, "Erreur chargement de la police d'écriture : %s\n", TTF_GetError());
     	exit(1);
 	}
-
-	text="Temps : ";
-    
-	surface = TTF_RenderText_Blended(pTTFManager->font,text,color);
-	pTTFManager->time = SDL_CreateTextureFromSurface(pScreen->renderer, surface);
-	
-	if(pTTFManager->time == NULL){
-		fprintf(stderr,"Erreur création de la texture du texte. \n");
-		exit(1);
-	}
 	
 	pTTFManager->font = TTF_OpenFont("Font/Oetztype.ttf", 250);
 	
@@ -121,12 +111,28 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	text="Voulez vous rejouer ? (y/n)";
 	surface = TTF_RenderText_Blended(pTTFManager->font,text,color);
 	pTTFManager->playAgain = SDL_CreateTextureFromSurface(pScreen->renderer, surface);
-	
 	if(pTTFManager->playAgain == NULL){
 		fprintf(stderr,"Erreur création de la texture du texte. \n");
 		exit(1);
 	}
 	
+	text="CONTAAAACT!!!!!";
+	surface = TTF_RenderText_Blended(pTTFManager->font,text,color);
+	pTTFManager->BAM = SDL_CreateTextureFromSurface(pScreen->renderer, surface);
+	if(pTTFManager->BAM == NULL){
+		fprintf(stderr,"Erreur création de la texture du texte. \n");
+		exit(1);
+	}
+	
+	//qq init
+	pTTFManager->squareNumberRec.x=20;
+	pTTFManager->squareNumberRec.y=70;
+	pTTFManager->squareNumberRec.h=50;
+	pTTFManager->squareNumberRec.w=200;
+	pTTFManager->BAMRec.x=100;
+	pTTFManager->BAMRec.y=250;
+	pTTFManager->BAMRec.h=50;
+	pTTFManager->BAMRec.w=500;
 	pTTFManager->playAgainRec.x=100;
 	pTTFManager->playAgainRec.y=320;
 	pTTFManager->playAgainRec.h=50;
@@ -135,20 +141,6 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	pTTFManager->timeRec.y=20;
 	pTTFManager->timeRec.h=50;
 	pTTFManager->timeRec.w=100;
-	pTTFManager->actualTimeRec.x=120;
-	pTTFManager->actualTimeRec.y=30;
-	pTTFManager->actualTimeRec.h=35;
-	pTTFManager->actualTimeRec.w=80;
-	
-	//Initialisation texture du temps
-	text="0";
-	surface = TTF_RenderText_Blended(pTTFManager->font,text,color);
-	pTTFManager->actualTime = SDL_CreateTextureFromSurface(pScreen->renderer, surface);
-	
-	if(pTTFManager->actualTime == NULL){
-		fprintf(stderr,"Erreur création de la texture du texte temps. \n");
-		exit(1);
-	}	
 }
 
 void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){

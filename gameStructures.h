@@ -21,10 +21,12 @@ typedef struct TimeManager{
 typedef struct TTFManager{
 	SDL_Texture * score;
 	SDL_Texture * time;
-	SDL_Texture * actualTime;
 	SDL_Texture * playAgain;
+	SDL_Texture * BAM;
+	SDL_Texture * squareNumber;
+	SDL_Rect squareNumberRec;
+	SDL_Rect BAMRec;
 	SDL_Rect timeRec;
-	SDL_Rect actualTimeRec;
 	SDL_Rect playAgainRec;
 	TTF_Font *font;
 }TTFManager;
