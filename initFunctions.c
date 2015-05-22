@@ -35,7 +35,6 @@ void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOpt
 	}
 	pScreen->map = SDL_CreateTextureFromSurface(pScreen->renderer,surface);
 	
-	// heeem il me semble que le memset ne marche pas #pascal
 	memset(pGameState,0,sizeof(*pGameState));
 	memset(pIn,0,sizeof(*pIn));
 	memset(pGameOptions,0,sizeof(*pGameOptions));
@@ -119,11 +118,6 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	pTTFManager->font = TTF_OpenFont("Font/Oetztype.ttf", 250);
 	
 	//Chargement texte fin de partie
-	if(pTTFManager->font == NULL) { 
-		fprintf(stderr, "Erreur chargement de la police d'écriture : %s\n", TTF_GetError());
-    	exit(1);
-	}
-	
 	text="Voulez vous rejouer ? (y/n)";
 	surface = TTF_RenderText_Blended(pTTFManager->font,text,color);
 	pTTFManager->playAgain = SDL_CreateTextureFromSurface(pScreen->renderer, surface);
@@ -133,6 +127,10 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 		exit(1);
 	}
 	
+	pTTFManager->playAgainRec.x=100;
+	pTTFManager->playAgainRec.y=320;
+	pTTFManager->playAgainRec.h=50;
+	pTTFManager->playAgainRec.w=700;
 	pTTFManager->timeRec.x=20;
 	pTTFManager->timeRec.y=20;
 	pTTFManager->timeRec.h=50;
@@ -150,8 +148,7 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	if(pTTFManager->actualTime == NULL){
 		fprintf(stderr,"Erreur création de la texture du texte temps. \n");
 		exit(1);
-	}
-	
+	}	
 }
 
 void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){

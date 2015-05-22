@@ -25,6 +25,7 @@ typedef struct TTFManager{
 	SDL_Texture * playAgain;
 	SDL_Rect timeRec;
 	SDL_Rect actualTimeRec;
+	SDL_Rect playAgainRec;
 	TTF_Font *font;
 }TTFManager;
 

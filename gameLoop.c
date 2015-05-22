@@ -98,6 +98,7 @@ void pauseLoop(GameState* pGameState,Input* pIn,Character *pCharacter,Enemies *p
 void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager){
 	while(pGameState->waiting && !pIn->quit){
 		updateInput(pIn);
+		SDL_RenderCopy(pScreen->renderer, pTTFManager->playAgain, NULL, &pTTFManager->playAgainRec);
 		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
 		if(pIn->keys[SDL_SCANCODE_N]){
 			pGameState->menu=1;

@@ -24,7 +24,6 @@ void updateInput(Input* pIn){
 }
 
 void checkCollision(Character *pCharacter,Enemies *pEnemies,Collision *pCollision,GameState * pGameState){
-
 	memset(pCollision,0,sizeof(*pCollision));//Mise des élements de la structure à 0 (faux)
 	
 	enemiesCollision(pEnemies);

@@ -27,14 +27,13 @@ int main(int argc, char *argv[]){
 	loadMenu(&menu, &screen);
 	updateScreenMenu(&menu,&screen,&gameState);
 	
-	fprintf(stderr,"Parce qu'avec un printf ça marche\n"); // NON MAIS WTF SERIEUX ??!
+	//fprintf(stderr,"Parce qu'avec un printf ça marche\n"); // NON MAIS WTF SERIEUX ??!
 	
 	// on donne une graine pour générer des nombres random
 	srand(time(NULL));
 	
 	// Durée de la boucle de jeu en ms
-	// 17 correspond envirron à 60 fps
-	screen.frameDuration = 17;
+	screen.frameDuration = 16;
 	
 	//Mise à 0 des des booléens des structures
 	memset(&in,0,sizeof(in));
