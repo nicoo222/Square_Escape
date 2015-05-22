@@ -142,6 +142,16 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	pTTFManager->actualTimeRec.h=35;
 	pTTFManager->actualTimeRec.w=80;
 	
+	//Initialisation texture du temps
+	text="0";
+	surface = TTF_RenderText_Blended(pTTFManager->font,text,color);
+	pTTFManager->actualTime = SDL_CreateTextureFromSurface(pScreen->renderer, surface);
+	
+	if(pTTFManager->actualTime == NULL){
+		fprintf(stderr,"Erreur création de la texture du texte temps. \n");
+		exit(1);
+	}
+	
 }
 
 void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
