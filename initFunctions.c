@@ -78,6 +78,7 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	SDL_Color color={255, 255, 255};
 	SDL_Surface * surface;
 	
+	memset(pTTFManager,0,sizeof(*pTTFManager));
 	//Initialisation de la librairie
 	if(TTF_Init() == -1){
 		fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());

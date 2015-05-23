@@ -6,7 +6,6 @@ void updateScreen(Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFMan
 	//On ajoute les versions des sprites mises à jour
 	SDL_RenderCopy(pScreen->renderer, pGameOptions->BG, NULL, &pGameOptions->BGRec);
 	SDL_RenderCopy(pScreen->renderer,pCharacter->square,NULL,&pCharacter->squarePosition); // Copie du sprite grâce au SDL_Renderer
-	
 	for(i=0;i<pEnemies->numberOfEnemies;i++){
 		SDL_RenderCopy(pScreen->renderer,pEnemies->enemies[i],NULL,&(pEnemies->enemiesPosition[i]));
 	}

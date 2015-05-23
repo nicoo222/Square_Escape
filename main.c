@@ -21,6 +21,8 @@ int main(int argc, char *argv[]){
 	audioInitialization(&musicManager);
 	ttfInitialization(&screen,&ttfManager);
 	initPauseText(&screen, &ttfManager);
+	characterInitialization(&character,&screen);
+	enemiesInitialization(&enemies,&screen);
 	
 
 
@@ -43,7 +45,7 @@ int main(int argc, char *argv[]){
 	
 	//Initialisation des comportements par défaut
 	memset(&gameOptions,0,sizeof(gameOptions));
-	gameOptions.mode = 0;
+	gameOptions.mode = 1;
 	gameState.menu = 1;
 	
 	//boucle principale
@@ -51,11 +53,12 @@ int main(int argc, char *argv[]){
 		menuLoop (&in, &gameState, &screen, &menu);
 		//si on quitte pas on rentre dans une partie
 		if(!in.quit){
-		  	characterInitialization(&character,&screen);
-			enemiesInitialization(&enemies,&screen);
 			updateTTFManager(&screen,&ttfManager,&timeManager,&enemies);
 			if (gameOptions.mode == 0){
 				mode0Loop(&in,&gameState,&character,&enemies,&screen,&collision,&musicManager,&ttfManager,&timeManager,&gameOptions);
+			}
+			if (gameOptions.mode == 1){
+				mode1Loop(&in,&gameOptions,&screen,&gameState);
 			}
 		}
 	}

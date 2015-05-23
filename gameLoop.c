@@ -155,22 +155,25 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 	
 	TTFManager ttfManager;
 	ttfInitialization(pScreen,&ttfManager);
-	
 	initPauseText(pScreen, &ttfManager);
 	
 	Character character;
-	Enemies enemies;
-	Collision collision;
-	TimeManager timeManager;
+	characterInitialization(&character,pScreen);
 	
+	Enemies enemies;
+	enemiesInitialization(&enemies,pScreen);
+	
+	Collision collision;
+	
+	TimeManager timeManager;
+	timeManager.debutTicks = (long) SDL_GetTicks();
+	timeManager.playingTime=0;
+
 	long frame = 0;
 	long frameTime = 0;
 	long delay = 0;
 	
 	pGameState->lost = 0;
-	timeManager.debutTicks = (long) SDL_GetTicks();
-	timeManager.playingTime=0;
-	
 	//On charge le BG du mode
 	SDL_Surface* BGSurface;
 	BGSurface = SDL_LoadBMP("Pictures/fond_grass.bmp");
@@ -184,7 +187,8 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 	pGameOptions->BGRec.w = PLAYING_AREA_WIDTH;
 	pGameOptions->BGRec.h = PLAYING_AREA_HEIGHT;
 	SDL_FreeSurface(BGSurface);
-	
+	updateTTFManager(pScreen,&ttfManager,&timeManager,&enemies);
+
 	while(!pGameState->menu && !pIn->quit && !pGameState->lost){
 		frameTime = (long) SDL_GetTicks();
 		frame++;
@@ -193,6 +197,10 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 		checkCollision(&character,&enemies,&collision,pGameState);
 		moveEnemies(&enemies);
 		moveCharacter(pIn,&collision,&character);
+		//On ajoute un ennemi régulièrement
+		if (frame%240 == 0){
+			addOneEnemy(&enemies);
+		}
 		//On met à jours l'afficheur du temps de jeu mais pas trop souvent
 		if(frame%20 == 0){
 		      updateTTFManager(pScreen,&ttfManager,&timeManager,&enemies);
@@ -201,7 +209,6 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 		SDL_RenderClear(pScreen->renderer);
 		updateScreen(&character,&enemies,pScreen,&ttfManager,pGameOptions);
 		SDL_RenderPresent(pScreen->renderer);
-		
 		//Si on vérifie si le joueur veux mettre en pause(P) ou quitter (Q)
 		if(pIn->keys[SDL_SCANCODE_P]){
 			pGameState->pause=1; 		
