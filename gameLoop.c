@@ -186,42 +186,44 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 	SDL_FreeSurface(BGSurface);
 	
 	while(!pGameState->menu && !pIn->quit && !pGameState->lost){
-		  frameTime = (long) SDL_GetTicks();
-		  frame++;
-	
-		  updateInput(pIn);
-		  checkCollision(&character,&enemies,&collision,pGameState);
-		  moveEnemies(&enemies);
-		  moveCharacter(pIn,&collision,&character);
-		  //On met à jours l'afficheur du temps de jeu
-		  updateTTFManager(pScreen,&ttfManager,&timeManager,&enemies);
-		  //On affiche l'ensemble
-		  SDL_RenderClear(pScreen->renderer);
-		  updateScreen(&character,&enemies,pScreen,&ttfManager,pGameOptions);
-		  SDL_RenderPresent(pScreen->renderer);
-		  
-		  //Si on vérifie si le joueur veux mettre en pause(P) ou quitter (Q)
-		  if(pIn->keys[SDL_SCANCODE_P]){
-			  pGameState->pause=1; 		
-			  pIn->keys[SDL_SCANCODE_P]=0;
-		  }
-		  if(pIn->keys[SDL_SCANCODE_Q]){
-			  pGameState->menu=1;
-		  }
-		  
-		  //boucle de pause
-		  if(pGameState->pause){
-			  //il faut arrêter replacer le compteur de temps après la pause
-			  long pauseDebut = (long) SDL_GetTicks();
-			  pauseLoop(pGameState,pIn,&character,&enemies,pScreen,&ttfManager,pGameOptions);
-			  timeManager.debutTicks += (long) SDL_GetTicks() - pauseDebut;
-		  }
-		  
-		  //Code pour attendre une durée de frame fixe
-		  delay = pScreen->frameDuration - (long) SDL_GetTicks() + frameTime;
-		  if (delay > 0) {
-			  SDL_Delay(delay);
-		  }
+		frameTime = (long) SDL_GetTicks();
+		frame++;
+		
+		updateInput(pIn);
+		checkCollision(&character,&enemies,&collision,pGameState);
+		moveEnemies(&enemies);
+		moveCharacter(pIn,&collision,&character);
+		//On met à jours l'afficheur du temps de jeu mais pas trop souvent
+		if(frame%20 == 0){
+		      updateTTFManager(pScreen,&ttfManager,&timeManager,&enemies);
+		}
+		//On affiche l'ensemble
+		SDL_RenderClear(pScreen->renderer);
+		updateScreen(&character,&enemies,pScreen,&ttfManager,pGameOptions);
+		SDL_RenderPresent(pScreen->renderer);
+		
+		//Si on vérifie si le joueur veux mettre en pause(P) ou quitter (Q)
+		if(pIn->keys[SDL_SCANCODE_P]){
+			pGameState->pause=1; 		
+			pIn->keys[SDL_SCANCODE_P]=0;
+		}
+		if(pIn->keys[SDL_SCANCODE_Q]){
+			pGameState->menu=1;
+		}
+		
+		//boucle de pause
+		if(pGameState->pause){
+			//il faut arrêter replacer le compteur de temps après la pause
+			long pauseDebut = (long) SDL_GetTicks();
+			pauseLoop(pGameState,pIn,&character,&enemies,pScreen,&ttfManager,pGameOptions);
+			timeManager.debutTicks += (long) SDL_GetTicks() - pauseDebut;
+		}
+		
+		//Code pour attendre une durée de frame fixe
+		delay = pScreen->frameDuration - (long) SDL_GetTicks() + frameTime;
+		if (delay > 0) {
+			SDL_Delay(delay);
+		}
 	}
 	
 	//Si le joueur sort du jeu car il a perdu la partie courante
