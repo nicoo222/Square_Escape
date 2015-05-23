@@ -57,8 +57,6 @@ typedef struct Collision{
 typedef struct Screen{
 	SDL_Window * window;
 	SDL_Renderer * renderer;
-	SDL_Texture * map;
-	SDL_Rect mapRec;
 	int frameDuration;
 }Screen;
 
@@ -103,6 +101,8 @@ typedef struct Menu{
 	SDL_Texture *Start[2];
 	SDL_Texture *Quit[2];
 	SDL_Rect ButtonPos[2];
+	SDL_Texture * menuBG;
+	SDL_Rect menuBGRec;
 }Menu;
 
 #endif

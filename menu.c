@@ -1,25 +1,14 @@
 #include "menu.h"
 
-void updateMenu(Input *pIn, GameState *pGameState){
-	
-	if (pIn->keys[SDL_SCANCODE_DOWN]){//on teste quelle touche est appuyée
-		if (!pGameState->choice){
-			pGameState->choice ++;
-		}
+void updateMenu(Input *pIn, GameState *pGameState, Menu *pMenu, Screen *pScreen){
+	//On ajoute les versions des sprites du menu
+	if (pGameState -> choice == 0){
+		SDL_RenderCopy(pScreen->renderer,pMenu->Start[0],NULL,&(pMenu->ButtonPos[0]));
+		SDL_RenderCopy(pScreen->renderer,pMenu->Quit[1],NULL,&(pMenu->ButtonPos[1]));
 	}
-	
-	if (pIn->keys[SDL_SCANCODE_UP]){
-		if (pGameState->choice){
-			pGameState->choice --;
-		}
-	}
-	if (pIn->keys[SDL_SCANCODE_RETURN]){
-		if (pGameState->choice == 0){
-			pGameState->menu = 0;
-		}
-		else if (pGameState->choice == 1){
-			pIn->quit = 1;
-		}
+	if (pGameState -> choice == 1){
+		SDL_RenderCopy(pScreen->renderer,pMenu->Start[1],NULL,&(pMenu->ButtonPos[0]));
+		SDL_RenderCopy(pScreen->renderer,pMenu->Quit[0],NULL,&(pMenu->ButtonPos[1]));
 	}
 }
 
@@ -28,12 +17,18 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 	SDL_Surface * startOff;
 	SDL_Surface * quitOn;
 	SDL_Surface * quitOff;
+	SDL_Surface * menuBGSurface;
 	
 	startOn = SDL_LoadBMP("Pictures/StartOn.bmp");
 	startOff = SDL_LoadBMP("Pictures/StartOff.bmp");
 	quitOn = SDL_LoadBMP("Pictures/QuitOn.bmp");
 	quitOff = SDL_LoadBMP("Pictures/QuitOff.bmp");
+	menuBGSurface = SDL_LoadBMP("Pictures/menu_space.bmp");	
 	
+	if (menuBGSurface == NULL){
+		fprintf(stderr,"Erreur chargement de l'image menuBG\n");
+		exit(1);
+	}
 	if (startOn == NULL){
 		fprintf(stderr,"Erreur chargement de l'image StartOn\n");
 		exit(1);
@@ -50,6 +45,13 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 		fprintf(stderr,"Erreur chargement de l'image QuitOff\n");
 		exit(1);
 	}
+	
+	//Initialisation du BG du menu
+	pMenu->menuBG = SDL_CreateTextureFromSurface(pScreen->renderer,menuBGSurface);
+	pMenu->menuBGRec.x=0;
+	pMenu->menuBGRec.y=0;
+	pMenu->menuBGRec.w=SCREEN_WIDTH;
+	pMenu->menuBGRec.h=SCREEN_HEIGHT;
 
 	//Mise en place des Render Start
 	pMenu->Start[0]=SDL_CreateTextureFromSurface(pScreen->renderer,startOn);
@@ -77,18 +79,9 @@ void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate){
 	
 	//On efface le contenu de l'écran
 	SDL_RenderClear(pScreen->renderer);
+	SDL_RenderCopy(pScreen->renderer,pMenu->menuBG,NULL,&pMenu->menuBGRec);
 	
-	//On ajoute les versions des sprites du menu
-	if (pGamestate -> choice == 0){
-		SDL_RenderCopy(pScreen->renderer,pScreen->map,NULL,NULL);
-		SDL_RenderCopy(pScreen->renderer,pMenu->Start[0],NULL,&(pMenu->ButtonPos[0]));
-		SDL_RenderCopy(pScreen->renderer,pMenu->Quit[1],NULL,&(pMenu->ButtonPos[1]));
-	}
-	if (pGamestate -> choice == 1){
-		SDL_RenderCopy(pScreen->renderer,pScreen->map,NULL,NULL);
-		SDL_RenderCopy(pScreen->renderer,pMenu->Start[1],NULL,&(pMenu->ButtonPos[0]));
-		SDL_RenderCopy(pScreen->renderer,pMenu->Quit[0],NULL,&(pMenu->ButtonPos[1]));
-	}
+
 	
 	//On réaffiche le tout 
 	SDL_RenderPresent(pScreen->renderer);

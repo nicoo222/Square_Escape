@@ -3,7 +3,6 @@
 
 // gcc main.c initFunctions.c gameFunctions.c screenFunctions.c  gameLoop.c menu.c -lSDL2 -lSDL2_mixer -lSDL2_ttf -o game
 int main(int argc, char *argv[]){
-
 	//Création des structures de jeu
 	Character character;
 	Enemies enemies;

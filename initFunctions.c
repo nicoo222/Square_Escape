@@ -22,28 +22,15 @@ void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOpt
    
 	//Création du renderer
 	pScreen->renderer = NULL;
-	
 	if((pScreen->renderer =  SDL_CreateRenderer( pScreen->window, 0, SDL_RENDERER_ACCELERATED))== NULL){
 	    fprintf(stderr, "Erreur chargement de l'écran: %s\n", SDL_GetError());
 		    exit(EXIT_FAILURE);
 	}
-	    
-	surface = SDL_LoadBMP("Pictures/fond.bmp");
-	
-	if (surface == NULL){
-		fprintf(stderr,"Erreur chargement de l'image de fond\n");
-		exit(1);
-	}
-	pScreen->map = SDL_CreateTextureFromSurface(pScreen->renderer,surface);
 	
 	memset(pGameState,0,sizeof(*pGameState));
 	memset(pIn,0,sizeof(*pIn));
 	memset(pGameOptions,0,sizeof(*pGameOptions));
 	pGameOptions->mode = 0;
-	pScreen->mapRec.x=0;
-	pScreen->mapRec.y=0;
-	pScreen->mapRec.h=PLAYING_AREA_HEIGHT;
-	pScreen->mapRec.w=PLAYING_AREA_WIDTH;
 }
 
 void audioInitialization(MusicManager *pMusicManager){

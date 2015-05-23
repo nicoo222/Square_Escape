@@ -19,8 +19,6 @@ void refreshScren(Screen *pScreen){
 	SDL_RenderPresent(pScreen->renderer);
 	//Efface le contenu de l'écran
 	SDL_RenderClear(pScreen->renderer);
-	//On remet le fond
-	SDL_RenderCopy(pScreen->renderer,pScreen->map,NULL,&pScreen->mapRec);
 }
 
 void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTimeManager,Enemies *pEnemies){

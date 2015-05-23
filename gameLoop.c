@@ -14,10 +14,31 @@ void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 }
 
 void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu){
+	//on set le BG du menu
+	SDL_RenderCopy(pScreen->renderer, pMenu->menuBG, NULL, &pMenu->menuBGRec);
+	updateMenu(pIn,pGameState,pMenu,pScreen);
 	while(pGameState->menu && !pIn->quit){
 		updateInput(pIn);
-		updateMenu(pIn,pGameState);
-		updateScreenMenu(pMenu,pScreen,pGameState);
+		//on teste quelle touche est appuyée
+		if (pIn->keys[SDL_SCANCODE_DOWN]){
+			if (!pGameState->choice){
+				pGameState->choice ++;
+				updateMenu(pIn,pGameState,pMenu,pScreen);
+			}
+		}
+		if (pIn->keys[SDL_SCANCODE_UP]){
+			if (pGameState->choice){
+				pGameState->choice --;
+				updateMenu(pIn,pGameState,pMenu,pScreen);
+			}
+		}
+		if (pIn->keys[SDL_SCANCODE_RETURN]){
+		  	pGameState->menu = 0;
+			if (pGameState->choice == 1){
+				pIn->quit = 1;
+			}
+		}
+		SDL_RenderPresent(pScreen->renderer);
 		SDL_Delay(15);
 	}
 }
