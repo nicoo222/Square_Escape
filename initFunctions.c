@@ -1,7 +1,7 @@
 #include "initFunctions.h"
 #include "const.h"
 
-void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOptions *pGameOptions){
+void windowInitialization(Screen *pScreen){
 	SDL_Surface * surface;
 	
 	putenv("SDL_VIDEO_WINDOW_POS=center"); //Pour centrer la fenêtre
@@ -12,7 +12,6 @@ void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOpt
 		fprintf(stderr, "SDL can't be loaded: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-	
 	
 	pScreen->window = SDL_CreateWindow("Square Escape",
                           SDL_WINDOWPOS_UNDEFINED,
@@ -26,11 +25,6 @@ void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOpt
 	    fprintf(stderr, "Erreur chargement de l'écran: %s\n", SDL_GetError());
 		    exit(EXIT_FAILURE);
 	}
-	
-	memset(pGameState,0,sizeof(*pGameState));
-	memset(pIn,0,sizeof(*pIn));
-	memset(pGameOptions,0,sizeof(*pGameOptions));
-	pGameOptions->mode = 0;
 }
 
 void audioInitialization(MusicManager *pMusicManager){

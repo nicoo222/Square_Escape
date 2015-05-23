@@ -25,7 +25,6 @@ void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTim
 	sprintf(nombre, "%ld", pTimeManager->playingTime);
 	strcat(text,nombre);
 	pTTFManager->squareNumberRec.w=20*strlen(text);
-	//printf("%d",strlen());
 	SDL_Surface* pSurface;
 	pSurface = TTF_RenderText_Blended(pTTFManager->font,text,color);
 	SDL_DestroyTexture(pTTFManager->time);
@@ -34,6 +33,7 @@ void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTim
 		fprintf(stderr,"Erreur création de la texture du texte du timer: %s\n",TTF_GetError());
 		exit(1);
 	}
+	SDL_FreeSurface(pSurface);
 	
 	//Le nombre d'ennemis
 	strcpy(text,"Nombre d'ennemis : ");
@@ -48,9 +48,7 @@ void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTim
 		fprintf(stderr,"Erreur création de la texture du texte. \n");
 		exit(1);
 	}
-	
 	SDL_FreeSurface(pSurface2);
-	SDL_FreeSurface(pSurface);
 }
 
 

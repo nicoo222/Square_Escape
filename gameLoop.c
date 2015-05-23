@@ -65,8 +65,10 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 		//On déplace les objets du jeu
 		moveEnemies(pEnemies);
 		moveCharacter(pIn,pCollision,pCharacter);
-		//On met à jours l'afficheur du temps de jeu
-		updateTTFManager(pScreen,pTTFManager,pTimeManager,pEnemies);
+		//On met à jours l'afficheur du temps de jeu mais pas trop souvent
+		if(frame%20 == 0){
+			updateTTFManager(pScreen,pTTFManager,pTimeManager,pEnemies);
+		}
 		//On réaffiche l'ensemble
 		SDL_RenderClear(pScreen->renderer);
 		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
@@ -145,6 +147,94 @@ void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies 
 		}
 		SDL_Delay(15);
 	}
+}
+
+void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* pGameState){
+	MusicManager musicManager;
+	audioInitialization(&musicManager);
+	
+	TTFManager ttfManager;
+	ttfInitialization(pScreen,&ttfManager);
+	
+	initPauseText(pScreen, &ttfManager);
+	
+	Character character;
+	Enemies enemies;
+	Collision collision;
+	TimeManager timeManager;
+	
+	long frame = 0;
+	long frameTime = 0;
+	long delay = 0;
+	
+	pGameState->lost = 0;
+	timeManager.debutTicks = (long) SDL_GetTicks();
+	timeManager.playingTime=0;
+	
+	//On charge le BG du mode
+	SDL_Surface* BGSurface;
+	BGSurface = SDL_LoadBMP("Pictures/fond_grass.bmp");
+	if (BGSurface == NULL){
+		fprintf(stderr,"Erreur chargement de l'image BGSurface\n");
+		exit(1);
+	}
+	pGameOptions->BG = SDL_CreateTextureFromSurface(pScreen->renderer,BGSurface);
+	pGameOptions->BGRec.x = 0;
+	pGameOptions->BGRec.y = 0;
+	pGameOptions->BGRec.w = PLAYING_AREA_WIDTH;
+	pGameOptions->BGRec.h = PLAYING_AREA_HEIGHT;
+	SDL_FreeSurface(BGSurface);
+	
+	while(!pGameState->menu && !pIn->quit && !pGameState->lost){
+		  frameTime = (long) SDL_GetTicks();
+		  frame++;
+	
+		  updateInput(pIn);
+		  checkCollision(&character,&enemies,&collision,pGameState);
+		  moveEnemies(&enemies);
+		  moveCharacter(pIn,&collision,&character);
+		  //On met à jours l'afficheur du temps de jeu
+		  updateTTFManager(pScreen,&ttfManager,&timeManager,&enemies);
+		  //On affiche l'ensemble
+		  SDL_RenderClear(pScreen->renderer);
+		  updateScreen(&character,&enemies,pScreen,&ttfManager,pGameOptions);
+		  SDL_RenderPresent(pScreen->renderer);
+		  
+		  //Si on vérifie si le joueur veux mettre en pause(P) ou quitter (Q)
+		  if(pIn->keys[SDL_SCANCODE_P]){
+			  pGameState->pause=1; 		
+			  pIn->keys[SDL_SCANCODE_P]=0;
+		  }
+		  if(pIn->keys[SDL_SCANCODE_Q]){
+			  pGameState->menu=1;
+		  }
+		  
+		  //boucle de pause
+		  if(pGameState->pause){
+			  //il faut arrêter replacer le compteur de temps après la pause
+			  long pauseDebut = (long) SDL_GetTicks();
+			  pauseLoop(pGameState,pIn,&character,&enemies,pScreen,&ttfManager,pGameOptions);
+			  timeManager.debutTicks += (long) SDL_GetTicks() - pauseDebut;
+		  }
+		  
+		  //Code pour attendre une durée de frame fixe
+		  delay = pScreen->frameDuration - (long) SDL_GetTicks() + frameTime;
+		  if (delay > 0) {
+			  SDL_Delay(delay);
+		  }
+	}
+	
+	//Si le joueur sort du jeu car il a perdu la partie courante
+	if(pGameState->lost){
+		pGameState->waiting=1;
+		
+		//Petit son de défaite 
+		Mix_PauseMusic(); 
+		Mix_PlayChannel(1, musicManager.sound[0], 0);
+		
+		//On attend que l'utilisateur décide de rejouer ou non
+		endGameLoop(pIn,pGameState,&character,&enemies,pScreen,&ttfManager,pGameOptions);
+	}	
 }
 
 

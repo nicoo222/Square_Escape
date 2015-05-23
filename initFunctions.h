@@ -4,7 +4,7 @@
 #include "lib.h"
 
 /** Fonction qui charge la SDL et crée une fenêtre de jeu **/
-void gameInitialization(Screen *pScreen,GameState *pGameState,Input *pIn,GameOptions *pGameOptions);
+void windowInitialization(Screen *pScreen);
 
 /** Chargement du module audio et des sons **/
 void audioInitialization(MusicManager *pMusicManager);

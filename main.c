@@ -17,10 +17,12 @@ int main(int argc, char *argv[]){
 	TimeManager timeManager;
 	
 	//Chargement des composants SDL2
-	gameInitialization(&screen,&gameState,&in,&gameOptions);
+	windowInitialization(&screen);
 	audioInitialization(&musicManager);
 	ttfInitialization(&screen,&ttfManager);
 	initPauseText(&screen, &ttfManager);
+	
+
 
 	
 	//Chargement des images 
@@ -37,8 +39,11 @@ int main(int argc, char *argv[]){
 	
 	//Mise à 0 des des booléens des structures
 	memset(&in,0,sizeof(in));
-	memset(&gameState,0,sizeof(gameState));
+	memset(&gameState,0,sizeof(gameState));	
 	
+	//Initialisation des comportements par défaut
+	memset(&gameOptions,0,sizeof(gameOptions));
+	gameOptions.mode = 0;
 	gameState.menu = 1;
 	
 	//boucle principale
