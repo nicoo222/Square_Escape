@@ -1,6 +1,9 @@
 #include "menu.h"
 
 void updateMenu(Input *pIn, GameState *pGameState, Menu *pMenu, Screen *pScreen){
+	SDL_RenderClear(pScreen->renderer);
+	//on print le BG du menu dans le renderer
+	SDL_RenderCopy(pScreen->renderer, pMenu->menuBG, NULL, &pMenu->menuBGRec);
 	//On ajoute les versions des sprites du menu
 	if (pGameState -> choice == 0){
 		SDL_RenderCopy(pScreen->renderer,pMenu->Start[0],NULL,&(pMenu->ButtonPos[0]));

@@ -72,6 +72,8 @@ typedef struct GameState{
 
 typedef struct GameOptions{
 	int mode;
+	SDL_Texture* BG;
+	SDL_Rect BGRec;
 }GameOptions;
 
 //liste des structures qui gère les objets du jeu

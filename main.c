@@ -44,8 +44,14 @@ int main(int argc, char *argv[]){
 	//boucle principale
 	while(!in.quit){	
 		menuLoop (&in, &gameState, &screen, &menu);
+		//si on quitte pas on rentre dans une partie
 		if(!in.quit){
-			playLoop(&in,&gameState,&character,&enemies,&collision,&screen,&gameOptions,&musicManager,&ttfManager,&timeManager);
+		  	characterInitialization(&character,&screen);
+			enemiesInitialization(&enemies,&screen);
+			updateTTFManager(&screen,&ttfManager,&timeManager,&enemies);
+			if (gameOptions.mode == 0){
+				mode0Loop(&in,&gameState,&character,&enemies,&screen,&collision,&musicManager,&ttfManager,&timeManager,&gameOptions);
+			}
 		}
 	}
 	

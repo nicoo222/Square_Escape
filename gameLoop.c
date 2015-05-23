@@ -1,21 +1,6 @@
 #include "gameLoop.h"
 
-
-void playLoop (Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Collision *pCollision,Screen *pScreen, GameOptions *pGameOptions,MusicManager *pMusicManager,TTFManager * pTTFManager,TimeManager *pTimeManager){
-	characterInitialization(pCharacter,pScreen);
-	enemiesInitialization(pEnemies,pScreen);
-	updateTTFManager(pScreen,pTTFManager,pTimeManager,pEnemies);
-	updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
-	refreshScren(pScreen);
-	
-	if (pGameOptions->mode == 0){
-		mode0Loop(pIn,pGameState,pCharacter,pEnemies,pScreen,pCollision,pMusicManager,pTTFManager,pTimeManager);
-	}
-}
-
 void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu){
-	//on set le BG du menu
-	SDL_RenderCopy(pScreen->renderer, pMenu->menuBG, NULL, &pMenu->menuBGRec);
 	updateMenu(pIn,pGameState,pMenu,pScreen);
 	while(pGameState->menu && !pIn->quit){
 		updateInput(pIn);
@@ -43,7 +28,7 @@ void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu){
 	}
 }
 
-void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,Collision *pCollision,MusicManager *pMusicManager,TTFManager * pTTFManager,TimeManager *pTimeManager){
+void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,Collision *pCollision,MusicManager *pMusicManager,TTFManager * pTTFManager,TimeManager *pTimeManager,GameOptions* pGameOptions){
 	long frame = 0;
 	long frameTime = 0;
 	long delay = 0;
@@ -52,6 +37,19 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 	pTimeManager->debutTicks = (long) SDL_GetTicks();
 	pTimeManager->playingTime=0;
 	
+	//On charge le BG du mode
+	SDL_Surface* BGSurface;
+	BGSurface = SDL_LoadBMP("Pictures/fond_space.bmp");
+	if (BGSurface == NULL){
+		fprintf(stderr,"Erreur chargement de l'image menuBG\n");
+		exit(1);
+	}
+	pGameOptions->BG = SDL_CreateTextureFromSurface(pScreen->renderer,BGSurface);
+	pGameOptions->BGRec.x = 0;
+	pGameOptions->BGRec.y = 0;
+	pGameOptions->BGRec.w = PLAYING_AREA_WIDTH;
+	pGameOptions->BGRec.h = PLAYING_AREA_HEIGHT;
+
 	while(!pGameState->menu && !pIn->quit && !pGameState->lost){
 		frameTime = (long) SDL_GetTicks();
 		frame++;
@@ -67,11 +65,12 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 		//On déplace les objets du jeu
 		moveEnemies(pEnemies);
 		moveCharacter(pIn,pCollision,pCharacter);
-		//On met à jours l'affichage du temps de jeu
+		//On met à jours l'afficheur du temps de jeu
 		updateTTFManager(pScreen,pTTFManager,pTimeManager,pEnemies);
 		//On réaffiche l'ensemble
-		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
-		refreshScren(pScreen);
+		SDL_RenderClear(pScreen->renderer);
+		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
+		SDL_RenderPresent(pScreen->renderer);
 		//Si on a appuyé sur p on rentre dans la boucle de pause
 		if(pIn->keys[SDL_SCANCODE_P]){
 			pGameState->pause=1; 		
@@ -83,7 +82,7 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 		if(pGameState->pause){
 			//il faut arrêter replacer le compteur de temps après la pause
 			long pauseDebut = (long) SDL_GetTicks();
-			pauseLoop(pGameState,pIn,pCharacter,pEnemies,pScreen,pTTFManager);
+			pauseLoop(pGameState,pIn,pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
 			pTimeManager->debutTicks += (long) SDL_GetTicks() - pauseDebut;
 		}
 		
@@ -103,13 +102,14 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 		Mix_PlayChannel(1, pMusicManager->sound[0], 0);
 		
 		//On attend que l'utilisateur décide de rejouer ou non
-		endGameLoop(pIn,pGameState,pCharacter,pEnemies,pScreen,pTTFManager);
+		endGameLoop(pIn,pGameState,pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
 	}
+	SDL_FreeSurface(BGSurface);
 }
 
-void pauseLoop(GameState* pGameState,Input* pIn,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager){
+void pauseLoop(GameState* pGameState,Input* pIn,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager,GameOptions* pGameOptions){
 	//On met le compteur en pause
-	updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
+	updateScreen(pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
 	SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL1, NULL, &pTTFManager->pauseTextL1Rec);
 	SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL2, NULL, &pTTFManager->pauseTextL2Rec);
 	SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL3, NULL, &pTTFManager->pauseTextL3Rec);
@@ -128,12 +128,12 @@ void pauseLoop(GameState* pGameState,Input* pIn,Character *pCharacter,Enemies *p
 	}
 }
 
-void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager){
+void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager,GameOptions* pGameOptions){
 	while(pGameState->waiting && !pIn->quit){
-	  	updateScreen(pCharacter,pEnemies,pScreen,pTTFManager);
+	  	updateScreen(pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
 		SDL_RenderCopy(pScreen->renderer, pTTFManager->playAgain, NULL, &pTTFManager->playAgainRec);
 		SDL_RenderCopy(pScreen->renderer, pTTFManager->BAM, NULL, &pTTFManager->BAMRec);
-		refreshScren(pScreen);
+		SDL_RenderPresent(pScreen->renderer);
 		updateInput(pIn);
 		if(pIn->keys[SDL_SCANCODE_N]){
 			pGameState->menu=1;

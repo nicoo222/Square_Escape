@@ -1,10 +1,10 @@
 #include "screenFunctions.h"
 
 
-void updateScreen(Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager){
+void updateScreen(Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager,GameOptions* pGameOptions){
 	int i;
-	
 	//On ajoute les versions des sprites mises à jour
+	SDL_RenderCopy(pScreen->renderer, pGameOptions->BG, NULL, &pGameOptions->BGRec);
 	SDL_RenderCopy(pScreen->renderer,pCharacter->square,NULL,&pCharacter->squarePosition); // Copie du sprite grâce au SDL_Renderer
 	
 	for(i=0;i<pEnemies->numberOfEnemies;i++){
@@ -12,13 +12,6 @@ void updateScreen(Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFMan
 	}
 	SDL_RenderCopy(pScreen->renderer, pTTFManager->time, NULL, &pTTFManager->timeRec);
 	SDL_RenderCopy(pScreen->renderer, pTTFManager->squareNumber, NULL, &pTTFManager->squareNumberRec);
-}
-
-void refreshScren(Screen *pScreen){
-	//Affiche le tout 
-	SDL_RenderPresent(pScreen->renderer);
-	//Efface le contenu de l'écran
-	SDL_RenderClear(pScreen->renderer);
 }
 
 void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTimeManager,Enemies *pEnemies){
