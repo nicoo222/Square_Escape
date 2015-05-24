@@ -1,20 +1,21 @@
 #include "gameLoop.h"
+#include "gameFunctions.h"
 
-void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu){
-	updateMenu(pIn,pGameState,pMenu,pScreen);
+void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,GameOptions* pGameOptions){
+	updateMenu(pGameState,pMenu,pScreen);
 	while(pGameState->menu && !pIn->quit){
 		updateInput(pIn);
 		//on teste quelle touche est appuyée
 		if (pIn->keys[SDL_SCANCODE_DOWN]){
 			if (!pGameState->choice){
 				pGameState->choice ++;
-				updateMenu(pIn,pGameState,pMenu,pScreen);
+				updateMenu(pGameState,pMenu,pScreen);
 			}
 		}
 		if (pIn->keys[SDL_SCANCODE_UP]){
 			if (pGameState->choice){
 				pGameState->choice --;
-				updateMenu(pIn,pGameState,pMenu,pScreen);
+				updateMenu(pGameState,pMenu,pScreen);
 			}
 		}
 		if (pIn->keys[SDL_SCANCODE_RETURN]){
@@ -22,6 +23,9 @@ void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu){
 			if (pGameState->choice == 1){
 				pIn->quit = 1;
 			}
+		}
+		if (pIn->keys[SDL_SCANCODE_E]){
+		  	pGameOptions->mode = (pGameOptions->mode+1)%2;
 		}
 		SDL_RenderPresent(pScreen->renderer);
 		SDL_Delay(15);
@@ -33,6 +37,7 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 	long frameTime = 0;
 	long delay = 0;
 	
+	enemiesInitialization(pEnemies,pScreen);
 	pGameState->lost = 0;
 	pTimeManager->debutTicks = (long) SDL_GetTicks();
 	pTimeManager->playingTime=0;
@@ -162,6 +167,10 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 	
 	Enemies enemies;
 	enemiesInitialization(&enemies,pScreen);
+	Unit seed;
+	memset(&seed,0,sizeof(seed));
+	
+	
 	
 	Collision collision;
 	
@@ -211,7 +220,7 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 		SDL_RenderPresent(pScreen->renderer);
 		//Si on vérifie si le joueur veux mettre en pause(P) ou quitter (Q)
 		if(pIn->keys[SDL_SCANCODE_P]){
-			pGameState->pause=1; 		
+			pGameState->pause=1;
 			pIn->keys[SDL_SCANCODE_P]=0;
 		}
 		if(pIn->keys[SDL_SCANCODE_Q]){
@@ -243,7 +252,7 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 		
 		//On attend que l'utilisateur décide de rejouer ou non
 		endGameLoop(pIn,pGameState,&character,&enemies,pScreen,&ttfManager,pGameOptions);
-	}	
+	}
 }
 
 

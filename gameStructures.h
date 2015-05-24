@@ -93,6 +93,7 @@ typedef struct Enemies{
 typedef struct Unit{
 	SDL_Texture* texture;
 	SDL_Rect rect;
+	int collision;
 	int chocRight;
 	int chocUp;
 	int chocLeft;

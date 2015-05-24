@@ -14,7 +14,7 @@ void updateScreen(Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFMan
 }
 
 void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTimeManager,Enemies *pEnemies){
-	SDL_Color color={255, 255, 255};
+	SDL_Color color={255, 255, 255, 255};
 	char text[30] = "";
 	char nombre [10] = "";
 	

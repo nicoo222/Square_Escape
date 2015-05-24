@@ -1,5 +1,5 @@
-#ifndef gameFunctions
-#define gameFunctions
+#ifndef screenFunctions
+#define screenFunctions
  
 #include "lib.h"
 

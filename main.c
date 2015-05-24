@@ -1,8 +1,10 @@
 #include "lib.h"
 
 
-// gcc main.c initFunctions.c gameFunctions.c screenFunctions.c  gameLoop.c menu.c -lSDL2 -lSDL2_mixer -lSDL2_ttf -o game
-int main(int argc, char *argv[]){
+// gcc main.c initFunctions.c gameFunctions.c screenFunctions.c  gameLoop.c menu.c unit.c -lSDL2 -lSDL2_mixer -lSDL2_ttf -o game -Wall -Wformat -Wextra
+int main(int argc, char* argv[]){
+	if(argc > 1 && strcmp(argv[1],"-h")){		
+	}
 	//Création des structures de jeu
 	Character character;
 	Enemies enemies;
@@ -24,12 +26,9 @@ int main(int argc, char *argv[]){
 	characterInitialization(&character,&screen);
 	enemiesInitialization(&enemies,&screen);
 	
-
-
-	
 	//Chargement des images 
 	loadMenu(&menu, &screen);
-	updateScreenMenu(&menu,&screen,&gameState);
+	updateScreenMenu(&menu,&screen);
 	
 	//fprintf(stderr,"Parce qu'avec un printf ça marche\n"); // NON MAIS WTF SERIEUX ??!
 	
@@ -45,12 +44,13 @@ int main(int argc, char *argv[]){
 	
 	//Initialisation des comportements par défaut
 	memset(&gameOptions,0,sizeof(gameOptions));
-	gameOptions.mode = 1;
 	gameState.menu = 1;
 	
 	//boucle principale
-	while(!in.quit){	
-		menuLoop (&in, &gameState, &screen, &menu);
+	while(!in.quit){
+		if(gameState.menu){
+			menuLoop (&in, &gameState, &screen, &menu, &gameOptions);
+		}
 		//si on quitte pas on rentre dans une partie
 		if(!in.quit){
 			updateTTFManager(&screen,&ttfManager,&timeManager,&enemies);

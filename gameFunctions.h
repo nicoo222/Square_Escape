@@ -9,7 +9,7 @@ void updateInput(Input* pIn);
 /** Vérifie toutes les collisions entre les objets du jeu **/
 void checkCollision(Character *pCharacter,Enemies *pEnemies,Collision *pCollision,GameState * pGameState);
 void characterCollision(Character *pCharacter, Enemies *pEnemies, Collision * pCollision, GameState *pGameState);
-void addEnemy(Enemies * enemies);
+void addOneEnemy(Enemies *pEnemies);
 void enemiesCollision(Enemies *pEnemies);
 void moveEnemies(Enemies *pEnemies);
 void moveCharacter(Input* pIn,Collision* pCollision,Character* pCharacter);

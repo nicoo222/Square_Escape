@@ -1,6 +1,6 @@
 #include "menu.h"
 
-void updateMenu(Input *pIn, GameState *pGameState, Menu *pMenu, Screen *pScreen){
+void updateMenu(GameState *pGameState, Menu *pMenu, Screen *pScreen){
 	SDL_RenderClear(pScreen->renderer);
 	//on print le BG du menu dans le renderer
 	SDL_RenderCopy(pScreen->renderer, pMenu->menuBG, NULL, &pMenu->menuBGRec);
@@ -78,13 +78,11 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 
 }
 
-void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate){
+void updateScreenMenu(Menu *pMenu, Screen *pScreen){
 	
 	//On efface le contenu de l'écran
 	SDL_RenderClear(pScreen->renderer);
 	SDL_RenderCopy(pScreen->renderer,pMenu->menuBG,NULL,&pMenu->menuBGRec);
-	
-
 	
 	//On réaffiche le tout 
 	SDL_RenderPresent(pScreen->renderer);

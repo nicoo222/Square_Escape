@@ -2,8 +2,6 @@
 #include "const.h"
 
 void windowInitialization(Screen *pScreen){
-	SDL_Surface * surface;
-	
 	putenv("SDL_VIDEO_WINDOW_POS=center"); //Pour centrer la fenêtre
 	
 	// Initialisation de la SDL
@@ -75,9 +73,10 @@ void audioInitialization(MusicManager *pMusicManager){
 
 void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	char* text;
-	SDL_Color color={255, 255, 255};
+	SDL_Color color={255, 255, 255, 255};
 	SDL_Surface * surface;
 	
+	//Init de la structure à l'adresse pTTFManager
 	memset(pTTFManager,0,sizeof(*pTTFManager));
 	//Initialisation de la librairie
 	if(TTF_Init() == -1){
@@ -131,7 +130,7 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 }
 
 void initPauseText(Screen* pScreen, TTFManager* pTTFManager){
-	SDL_Color color={255, 255, 255};
+	SDL_Color color={255, 255, 255, 255};
 	char text[30] = "";
 	strcpy(text,"PAUSE");
 	SDL_Surface* pSurface;
@@ -180,7 +179,7 @@ void initPauseText(Screen* pScreen, TTFManager* pTTFManager){
 
 void enemiesInitialization(Enemies *pEnemies,Screen *pScreen){
 	int i;
-	SDL_Surface * surface;
+	SDL_Surface* surface;
 	
 	surface=SDL_LoadBMP("Pictures/redSquare.bmp");
 	
@@ -244,4 +243,13 @@ void characterInitialization(Character *pCharacter,Screen *pScreen){
 	pCharacter->squarePosition.y=250;//pObjects->screen->h / 2 - pObjects->square->h / 2;
 	
 	SDL_QueryTexture(pCharacter->square, NULL, NULL, &(pCharacter->squarePosition.w), &(pCharacter->squarePosition.h));	
+}
+
+void initSeed(Unit* pUnit){
+  	surface = SDL_LoadBMP("Pictures/blueSquare.bmp");
+	if (surface == NULL){
+		fprintf(stderr,"Erreur chargement de l'image du personnage\n");
+		exit(1);
+	}
+	
 }
