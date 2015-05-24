@@ -14,5 +14,6 @@
 #include "gameLoop.h"
 #include "menu.h"
 #include "initFunctions.h"
+#include "unit.h"
 
 #endif

@@ -82,6 +82,17 @@ typedef struct Character{
 	SDL_Rect squarePosition;
 }Character;
 
+typedef struct Unit{
+	SDL_Texture* pTexture;
+	SDL_Rect rec;
+}Unit;
+
+typedef struct Texte{
+	int flag;
+	SDL_Texture* pTexture;
+	SDL_Rect rec;
+}Texte;
+
 typedef struct Enemies{
 	SDL_Texture * enemies[MAX_ENEMIES];
 	SDL_Rect enemiesPosition[MAX_ENEMIES];
@@ -90,16 +101,6 @@ typedef struct Enemies{
 	int numberOfEnemies;
 }Enemies;
 
-typedef struct Unit{
-	SDL_Texture* texture;
-	SDL_Rect rect;
-	int collision;
-	int chocRight;
-	int chocUp;
-	int chocLeft;
-	int chocDown;
-}Unit;
-
 typedef struct Menu{
 	SDL_Texture *Start[2];
 	SDL_Texture *Quit[2];
@@ -107,5 +108,6 @@ typedef struct Menu{
 	SDL_Texture * menuBG;
 	SDL_Rect menuBGRec;
 }Menu;
+
 
 #endif

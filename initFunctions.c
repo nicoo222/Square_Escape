@@ -111,10 +111,10 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	}
 	
 	//qq init
-	pTTFManager->squareNumberRec.x=20;
+	pTTFManager->squareNumberRec.x=865;
 	pTTFManager->squareNumberRec.y=70;
-	pTTFManager->squareNumberRec.h=50;
-	pTTFManager->squareNumberRec.w=200;
+	pTTFManager->squareNumberRec.h=20;
+	pTTFManager->squareNumberRec.w=0;
 	pTTFManager->BAMRec.x=100;
 	pTTFManager->BAMRec.y=250;
 	pTTFManager->BAMRec.h=50;
@@ -123,9 +123,9 @@ void ttfInitialization(Screen * pScreen, TTFManager * pTTFManager){
 	pTTFManager->playAgainRec.y=320;
 	pTTFManager->playAgainRec.h=50;
 	pTTFManager->playAgainRec.w=700;
-	pTTFManager->timeRec.x=20;
+	pTTFManager->timeRec.x=865;
 	pTTFManager->timeRec.y=20;
-	pTTFManager->timeRec.h=50;
+	pTTFManager->timeRec.h=30;
 	pTTFManager->timeRec.w=100;
 }
 
@@ -245,11 +245,20 @@ void characterInitialization(Character *pCharacter,Screen *pScreen){
 	SDL_QueryTexture(pCharacter->square, NULL, NULL, &(pCharacter->squarePosition.w), &(pCharacter->squarePosition.h));	
 }
 
-void initSeed(Unit* pUnit){
-  	surface = SDL_LoadBMP("Pictures/blueSquare.bmp");
+void initSeed(Unit* pUnit, Screen* pScreen){
+  	memset(pUnit,0,sizeof(*pUnit));
+  	SDL_Surface* surface;
+  	surface = SDL_LoadBMP("Pictures/seed.bmp");
 	if (surface == NULL){
-		fprintf(stderr,"Erreur chargement de l'image du personnage\n");
+		fprintf(stderr,"Erreur chargement de la surface de l'unité\n");
 		exit(1);
 	}
-	
+	pUnit->pTexture=SDL_CreateTextureFromSurface(pScreen->renderer,surface);
+	SDL_FreeSurface(surface);
+	if(pUnit->pTexture == NULL){
+		fprintf(stderr,"Erreur création de la texture de l'unité\n");
+		exit(1);
+	}
+	pUnit->rec.w=25;
+	pUnit->rec.h=25;
 }

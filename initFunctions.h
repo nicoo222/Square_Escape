@@ -21,4 +21,6 @@ void characterInitialization(Character *pCharacter,Screen *pScreen);
 /**Initialisation du texte de la pause **/
 void initPauseText(Screen* pScreen, TTFManager* pTTFManager);
 
+/**Initialisation d'une graine pour le mode 1 **/
+void initSeed(Unit* pUnit, Screen* pScreen);
 #endif

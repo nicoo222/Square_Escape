@@ -153,7 +153,6 @@ void moveCharacter(Input* pIn,Collision* pCollision,Character* pCharacter){
 		if(!pCollision->left){
 			pCharacter->squarePosition.x-=6;
 		}
-			
 	}
 	
 	if (pIn->keys[SDL_SCANCODE_DOWN]){
@@ -163,7 +162,7 @@ void moveCharacter(Input* pIn,Collision* pCollision,Character* pCharacter){
 	}
 	
 	if(pIn->keys[SDL_SCANCODE_RIGHT]){
-	  if(!pCollision->right){
+		if(!pCollision->right){
 			pCharacter->squarePosition.x+=6;
 		}
 	}

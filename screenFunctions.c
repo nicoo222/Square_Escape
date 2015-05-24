@@ -23,7 +23,7 @@ void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTim
 	pTimeManager->playingTime = ((long) (SDL_GetTicks() - pTimeManager->debutTicks))/1000;
 	sprintf(nombre, "%ld", pTimeManager->playingTime);
 	strcat(text,nombre);
-	pTTFManager->squareNumberRec.w=20*strlen(text);
+	pTTFManager->squareNumberRec.w=16*strlen(text);
 	SDL_Surface* pSurface;
 	pSurface = TTF_RenderText_Blended(pTTFManager->font,text,color);
 	SDL_DestroyTexture(pTTFManager->time);
@@ -35,10 +35,10 @@ void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTim
 	SDL_FreeSurface(pSurface);
 	
 	//Le nombre d'ennemis
-	strcpy(text,"Nombre d'ennemis : ");
+	strcpy(text,"Ennemis : ");
 	sprintf(nombre, "%d", pEnemies->numberOfEnemies);
 	strcat(text,nombre);
-	pTTFManager->squareNumberRec.w=20*strlen(text);
+	pTTFManager->squareNumberRec.w=13*strlen(text);
 	SDL_Surface* pSurface2;
 	pSurface2 = TTF_RenderText_Blended(pTTFManager->font,text,color);
 	SDL_DestroyTexture(pTTFManager->squareNumber);
@@ -49,6 +49,26 @@ void updateTTFManager(Screen* pScreen, TTFManager* pTTFManager,TimeManager* pTim
 	}
 	SDL_FreeSurface(pSurface2);
 }
+
+void updateSeedScore(Screen* pScreen,Texte* pTexte, int score,TTFManager* pTTFManager){
+  	SDL_Color color={255, 255, 255, 255};
+	char text[30] = "";
+	char nombre [10] = "";
+	strcpy(text,"score : ");
+	sprintf(nombre, "%d", score);
+	strcat(text,nombre);
+	pTexte->rec.w=13*strlen(text);
+	SDL_Surface* pSurface;
+	pSurface = TTF_RenderText_Blended(pTTFManager->font,text,color);
+	SDL_DestroyTexture(pTexte->pTexture);
+	pTexte->pTexture = SDL_CreateTextureFromSurface(pScreen->renderer, pSurface);
+	if(pTTFManager->squareNumber == NULL){
+		fprintf(stderr,"Erreur création de la texture du texte de score.\n");
+		exit(1);
+	}
+	SDL_FreeSurface(pSurface);
+}
+	
 
 
 

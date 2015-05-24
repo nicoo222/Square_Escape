@@ -3,6 +3,7 @@
 
 void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,GameOptions* pGameOptions){
 	updateMenu(pGameState,pMenu,pScreen);
+	int flagE = 0;
 	while(pGameState->menu && !pIn->quit){
 		updateInput(pIn);
 		//on teste quelle touche est appuyée
@@ -25,8 +26,14 @@ void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,Gam
 			}
 		}
 		if (pIn->keys[SDL_SCANCODE_E]){
-		  	pGameOptions->mode = (pGameOptions->mode+1)%2;
+			if(!flagE){
+				pGameOptions->mode = (pGameOptions->mode+1)%2;
+				flagE = 1;
+			}
+		}else{
+			flagE = 0;
 		}
+		
 		SDL_RenderPresent(pScreen->renderer);
 		SDL_Delay(15);
 	}
@@ -89,7 +96,12 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 		if(pGameState->pause){
 			//il faut arrêter replacer le compteur de temps après la pause
 			long pauseDebut = (long) SDL_GetTicks();
-			pauseLoop(pGameState,pIn,pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
+			//on print dans le renderer ce qu'on veut afficher pendant la pause
+			updateScreen(pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
+			SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL1, NULL, &pTTFManager->pauseTextL1Rec);
+			SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL2, NULL, &pTTFManager->pauseTextL2Rec);
+			SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL3, NULL, &pTTFManager->pauseTextL3Rec);
+			pauseLoop(pGameState,pIn,pScreen);
 			pTimeManager->debutTicks += (long) SDL_GetTicks() - pauseDebut;
 		}
 		
@@ -103,23 +115,20 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 	//Le joueur a perdu la partie courante
 	if(pGameState->lost){
 		pGameState->waiting=1;
-		
 		//Petit son de défaite 
 		Mix_PauseMusic(); 
 		Mix_PlayChannel(1, pMusicManager->sound[0], 0);
-		
+		//On print l'affichage de fin de partie
+		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
+		SDL_RenderCopy(pScreen->renderer, pTTFManager->playAgain, NULL, &pTTFManager->playAgainRec);
+		SDL_RenderCopy(pScreen->renderer, pTTFManager->BAM, NULL, &pTTFManager->BAMRec);
 		//On attend que l'utilisateur décide de rejouer ou non
-		endGameLoop(pIn,pGameState,pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
+		endGameLoop(pIn,pGameState,pScreen);
 	}
 	SDL_FreeSurface(BGSurface);
 }
 
-void pauseLoop(GameState* pGameState,Input* pIn,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager,GameOptions* pGameOptions){
-	//On met le compteur en pause
-	updateScreen(pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
-	SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL1, NULL, &pTTFManager->pauseTextL1Rec);
-	SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL2, NULL, &pTTFManager->pauseTextL2Rec);
-	SDL_RenderCopy(pScreen->renderer, pTTFManager->pauseTextL3, NULL, &pTTFManager->pauseTextL3Rec);
+void pauseLoop(GameState* pGameState,Input* pIn,Screen *pScreen){
 	while(pGameState->pause && !pIn->quit){
 		updateInput(pIn);
 		SDL_RenderPresent(pScreen->renderer);
@@ -135,11 +144,8 @@ void pauseLoop(GameState* pGameState,Input* pIn,Character *pCharacter,Enemies *p
 	}
 }
 
-void endGameLoop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,TTFManager *pTTFManager,GameOptions* pGameOptions){
+void endGameLoop(Input *pIn,GameState *pGameState,Screen *pScreen){
 	while(pGameState->waiting && !pIn->quit){
-	  	updateScreen(pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
-		SDL_RenderCopy(pScreen->renderer, pTTFManager->playAgain, NULL, &pTTFManager->playAgainRec);
-		SDL_RenderCopy(pScreen->renderer, pTTFManager->BAM, NULL, &pTTFManager->BAMRec);
 		SDL_RenderPresent(pScreen->renderer);
 		updateInput(pIn);
 		if(pIn->keys[SDL_SCANCODE_N]){
@@ -168,9 +174,8 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 	Enemies enemies;
 	enemiesInitialization(&enemies,pScreen);
 	Unit seed;
-	memset(&seed,0,sizeof(seed));
-	
-	
+	initSeed(&seed,pScreen);
+	randomMove(&seed);
 	
 	Collision collision;
 	
@@ -181,6 +186,13 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 	long frame = 0;
 	long frameTime = 0;
 	long delay = 0;
+	int score = 0;
+	Texte scoreTexte = {0};
+	scoreTexte.rec.x=865;
+	scoreTexte.rec.y=580;
+	scoreTexte.rec.w=0;
+	scoreTexte.rec.h=30;
+	
 	
 	pGameState->lost = 0;
 	//On charge le BG du mode
@@ -197,6 +209,7 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 	pGameOptions->BGRec.h = PLAYING_AREA_HEIGHT;
 	SDL_FreeSurface(BGSurface);
 	updateTTFManager(pScreen,&ttfManager,&timeManager,&enemies);
+	updateSeedScore(pScreen, &scoreTexte, score, &ttfManager);
 
 	while(!pGameState->menu && !pIn->quit && !pGameState->lost){
 		frameTime = (long) SDL_GetTicks();
@@ -214,9 +227,17 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 		if(frame%20 == 0){
 		      updateTTFManager(pScreen,&ttfManager,&timeManager,&enemies);
 		}
+		//Est ce que le joueur à trouver une seed ?
+		if(checkUnitCollisionWIthCharacter(&seed, &character)){
+			score ++;
+			randomMove(&seed);
+			updateSeedScore(pScreen, &scoreTexte, score, &ttfManager);
+		}
 		//On affiche l'ensemble
 		SDL_RenderClear(pScreen->renderer);
 		updateScreen(&character,&enemies,pScreen,&ttfManager,pGameOptions);
+		SDL_RenderCopy(pScreen->renderer,seed.pTexture, NULL, &seed.rec);
+		SDL_RenderCopy(pScreen->renderer,scoreTexte.pTexture, NULL, &scoreTexte.rec);
 		SDL_RenderPresent(pScreen->renderer);
 		//Si on vérifie si le joueur veux mettre en pause(P) ou quitter (Q)
 		if(pIn->keys[SDL_SCANCODE_P]){
@@ -231,7 +252,13 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 		if(pGameState->pause){
 			//il faut arrêter replacer le compteur de temps après la pause
 			long pauseDebut = (long) SDL_GetTicks();
-			pauseLoop(pGameState,pIn,&character,&enemies,pScreen,&ttfManager,pGameOptions);
+			//on print dans le renderer ce qu'on veut afficher pendant la pause
+			updateScreen(&character,&enemies,pScreen,&ttfManager,pGameOptions);
+			SDL_RenderCopy(pScreen->renderer, ttfManager.pauseTextL1, NULL, &ttfManager.pauseTextL1Rec);
+			SDL_RenderCopy(pScreen->renderer, ttfManager.pauseTextL2, NULL, &ttfManager.pauseTextL2Rec);
+			SDL_RenderCopy(pScreen->renderer, ttfManager.pauseTextL3, NULL, &ttfManager.pauseTextL3Rec);
+			SDL_RenderCopy(pScreen->renderer,seed.pTexture, NULL, &seed.rec);
+			pauseLoop(pGameState,pIn,pScreen);
 			timeManager.debutTicks += (long) SDL_GetTicks() - pauseDebut;
 		}
 		
@@ -249,9 +276,13 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 		//Petit son de défaite 
 		Mix_PauseMusic(); 
 		Mix_PlayChannel(1, musicManager.sound[0], 0);
-		
+		//On print l'affichage de fin de partie
+		updateScreen(&character,&enemies,pScreen,&ttfManager,pGameOptions);
+		SDL_RenderCopy(pScreen->renderer, ttfManager.playAgain, NULL, &ttfManager.playAgainRec);
+		SDL_RenderCopy(pScreen->renderer, ttfManager.BAM, NULL, &ttfManager.BAMRec);
+		SDL_RenderCopy(pScreen->renderer,seed.pTexture, NULL, &seed.rec);
 		//On attend que l'utilisateur décide de rejouer ou non
-		endGameLoop(pIn,pGameState,&character,&enemies,pScreen,&ttfManager,pGameOptions);
+		endGameLoop(pIn,pGameState,pScreen);
 	}
 }
 
