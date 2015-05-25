@@ -117,6 +117,8 @@ typedef struct Menu{
 	SDL_Texture *BgChoice[2];
 	SDL_Texture *Selection;
 	SDL_Rect ButtonPos[6];
+	SDL_Texture* menuBG;
+	SDL_Rect menuBGRec;
 }Menu;
 
 

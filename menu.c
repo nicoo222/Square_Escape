@@ -11,6 +11,8 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 	SDL_Surface * bgSea;
 	SDL_Surface * on;
 	SDL_Surface * off;
+	SDL_Surface * bgSpace;
+	
 	
 	start = SDL_LoadBMP("Pictures/StartOff.bmp");
 	option = SDL_LoadBMP("Pictures/Option.bmp");
@@ -20,8 +22,9 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 	on = SDL_LoadBMP("Pictures/On.bmp");
 	off = SDL_LoadBMP("Pictures/Off.bmp");
 	background = SDL_LoadBMP("Pictures/BackGround.bmp");
-	bgGrey = SDL_LoadBMP("Pictures/Grey.bmp");
+	bgSpace = SDL_LoadBMP("Pictures/Grey.bmp");
 	bgSea = SDL_LoadBMP("Pictures/BGsea.bmp");
+	bgGrey = SDL_LoadBMP("Pictures/BGgrey.bmp");
 
 	int h = 52;
 	int w = 150;
@@ -95,6 +98,8 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 
 	pMenu->BackGround=SDL_CreateTextureFromSurface(pScreen->renderer,background);
 	SDL_QueryTexture(pMenu->BackGround, NULL, NULL, &(pMenu->ButtonPos[3].w), &(pMenu->ButtonPos[3].h));
+	
+	pMenu->menuBG=SDL_CreateTextureFromSurface(pScreen->renderer,bgGrey);
 
 	pMenu->BgChoice[0]=SDL_CreateTextureFromSurface(pScreen->renderer,bgGrey);
 	SDL_QueryTexture(pMenu->BgChoice[0], NULL, NULL, pw, ph);
@@ -105,7 +110,7 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 	//Position des boutons
 	
 	pMenu->ButtonPos[3].w = 50;
-		
+	
 	pMenu->ButtonPos[0].x = 350;
 	pMenu->ButtonPos[0].y = 250;
 	pMenu->ButtonPos[1].x = 350;
@@ -119,7 +124,10 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 	pMenu->ButtonPos[5].x = 528;
 	pMenu->ButtonPos[5].y = 350;
 	
-
+	pMenu->menuBGRec.x = 0;
+	pMenu->menuBGRec.y = 0;
+	pMenu->menuBGRec.h = SCREEN_HEIGHT;
+	pMenu->menuBGRec.w = SCREEN_WIDTH;
 }
 
 void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate){
@@ -129,7 +137,7 @@ void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate){
 	
 	//On ajoute les versions des sprites du menu
 	if (pGamestate-> menu ==1) {
-		SDL_RenderCopy(pScreen->renderer,pMenu->BgChoice[1],NULL,NULL);
+		SDL_RenderCopy(pScreen->renderer,pMenu->menuBG,NULL,&pMenu->menuBGRec);
 		SDL_RenderCopy(pScreen->renderer,pMenu->Start,NULL,&(pMenu->ButtonPos[0]));
 		SDL_RenderCopy(pScreen->renderer,pMenu->Quit,NULL,&(pMenu->ButtonPos[2]));
 		SDL_RenderCopy(pScreen->renderer,pMenu->Option,NULL,&(pMenu->ButtonPos[1]));
@@ -149,7 +157,7 @@ void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate){
 		}
 	}
 	if (pGamestate->menu == 2){
-		SDL_RenderCopy(pScreen->renderer,pMenu->BgChoice[1],NULL,NULL);
+		SDL_RenderCopy(pScreen->renderer,pMenu->menuBG,NULL,&pMenu->menuBGRec);
 		SDL_RenderCopy(pScreen->renderer,pMenu->Sounds,NULL,&(pMenu->ButtonPos[0]));
 		SDL_RenderCopy(pScreen->renderer,pMenu->BackGround,NULL,&(pMenu->ButtonPos[1]));
 		if (pGamestate -> choice == 0){
