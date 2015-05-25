@@ -6,7 +6,16 @@
 
 //Structures globales
 
-//Structures qui gère les entrées claviers
+//Structure qui gère les entrées claviers
+typedef struct Input{
+	int keys[1024];
+	int mousex,mousey;
+	int mousexrel,mouseyrel;
+	char mousebuttons[6];
+	int quit;
+	int mouseMovement;
+} Input;
+
 typedef struct MusicManager{
 	Mix_Music * music [MAX_MUSIC]; //Les musiques
 	Mix_Chunk * sound [MAX_SOUND]; //Les sons courts
@@ -18,6 +27,7 @@ typedef struct TimeManager{
 	long playingTime;
 }TimeManager;
 
+//Gestion affichages textes
 typedef struct TTFManager{
 	SDL_Texture* score;
 	SDL_Texture* time;
@@ -36,15 +46,6 @@ typedef struct TTFManager{
 	SDL_Rect playAgainRec;
 	TTF_Font* font;
 }TTFManager;
-
-typedef struct Input{
-	int keys[1024];
-	int mousex,mousey;
-	int mousexrel,mouseyrel;
-	char mousebuttons[6];
-	int quit;
-	int mouseMovement;
-} Input;
 
 //Gère les collisions d'un objet
 typedef struct Collision{
@@ -81,7 +82,7 @@ typedef struct GameOptions{
 	SDL_Rect BGRec;
 }GameOptions;
 
-//liste des structures qui gère les objets du jeu
+//liste des structures qui gèrent les objets du jeu
 typedef struct Character{
 	SDL_Texture * square;
 	SDL_Rect squarePosition;

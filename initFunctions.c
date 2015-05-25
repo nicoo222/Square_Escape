@@ -65,9 +65,7 @@ void audioInitialization(MusicManager *pMusicManager){
  	
  	//Réglage du volume
  	Mix_VolumeMusic(MIX_MAX_VOLUME / 2); //Mettre le volume à la moitié
- 	
- 	//Lecture première musique de jeu 
- 	Mix_PlayMusic(pMusicManager->music[0], -1); //Jouer infiniment la musique
+ 	pMusicManager->currentMusic=0;
 
 }
 

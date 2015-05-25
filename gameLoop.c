@@ -123,6 +123,8 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 	pTimeManager->debutTicks = (long) SDL_GetTicks();
 	pTimeManager->playingTime=0;
 	
+	Mix_PlayMusic(pMusicManager->music[pMusicManager->currentMusic], -1); //Jouer infiniment la musique
+	
 	//On charge le BG du mode
 	SDL_Surface* BGSurface;
 	BGSurface = SDL_LoadBMP("Pictures/fond_space.bmp");
@@ -189,15 +191,22 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 	//Le joueur a perdu la partie courante
 	if(pGameState->lost){
 		pGameState->waiting=1;
-		//Petit son de défaite 
-		Mix_PauseMusic(); 
+		//Petit son de défaite et on stoppe la musique courante 
+		Mix_PauseMusic(); 		
 		Mix_PlayChannel(1, pMusicManager->sound[0], 0);
+		
+		if(pMusicManager->currentMusic==0){
+			pMusicManager->currentMusic=1;
+		}
+		else pMusicManager->currentMusic=0;
+		
 		//On print l'affichage de fin de partie
 		updateScreen(pCharacter,pEnemies,pScreen,pTTFManager,pGameOptions);
 		SDL_RenderCopy(pScreen->renderer, pTTFManager->playAgain, NULL, &pTTFManager->playAgainRec);
 		SDL_RenderCopy(pScreen->renderer, pTTFManager->BAM, NULL, &pTTFManager->BAMRec);
 		//On attend que l'utilisateur décide de rejouer ou non
 		endGameLoop(pIn,pGameState,pScreen);
+		
 	}
 	SDL_FreeSurface(BGSurface);
 }
@@ -237,6 +246,7 @@ void endGameLoop(Input *pIn,GameState *pGameState,Screen *pScreen){
 void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* pGameState){
 	MusicManager musicManager;
 	audioInitialization(&musicManager);
+	Mix_PlayMusic(musicManager.music[musicManager.currentMusic], -1); //Jouer infiniment la musique
 	
 	TTFManager ttfManager;
 	ttfInitialization(pScreen,&ttfManager);
