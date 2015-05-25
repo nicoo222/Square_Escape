@@ -104,6 +104,8 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 
 	//Position des boutons
 	
+	pMenu->ButtonPos[3].w = 50;
+		
 	pMenu->ButtonPos[0].x = 350;
 	pMenu->ButtonPos[0].y = 250;
 	pMenu->ButtonPos[1].x = 350;
@@ -116,7 +118,6 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 	pMenu->ButtonPos[4].y = 250;
 	pMenu->ButtonPos[5].x = 528;
 	pMenu->ButtonPos[5].y = 350;
-	pMenu->ButtonPos[3].w = 50;
 	
 
 }

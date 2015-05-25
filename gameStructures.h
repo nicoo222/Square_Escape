@@ -66,6 +66,9 @@ typedef struct GameState{
 	int pause;
 	int quit;
 	int menu;
+	//0 : hors du menu
+	//1 : dans le menu principale
+	//2 : dans le menu options
 	int choice;
 	int bgChoice;
 	int sChoice;

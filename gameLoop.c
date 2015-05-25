@@ -21,7 +21,6 @@ void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,Gam
 			if (!flagDOWN){
 				if (pGameState->choice < 2){
 					pGameState->choice ++;
-					fprintf(stderr,"flagDOWN = %d\n",flagDOWN);
 					flagDOWN = 1;
 				}
 			}
@@ -40,36 +39,72 @@ void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,Gam
 			flagUP = 0;
 		}
 		
-		if (pIn->keys[SDL_SCANCODE_RETURN]){
-			if (pGameState->menu == 1) {		
-				if (pGameState->choice == 0){
-					pGameState->menu = 0;
-				}
-				else if (pGameState->choice == 1){
-					pGameState->menu = 2;
-					pGameState->choice = 0;
-				}
-				else if (pGameState->choice == 2){
-					pIn->quit = 1;
-				}
-			} else if (pGameState->menu == 2) {
-				if (pGameState->choice == 0) {
-					if (pGameState->sChoice == 0){
-						pGameState->sChoice = 1;
-					} else {
-						pGameState->sChoice = 0;
-					}
-				}
-				if (pGameState->choice == 1){
-					if (pGameState->bgChoice == 0){
-						pGameState->bgChoice = 1;
-					} else { pGameState->bgChoice = 0;}
-				}
+		if (pIn->keys[SDL_SCANCODE_RETURN]){		
+			if (pGameState->choice == 0){
+				pGameState->menu = 0;
+			}
+			if (pGameState->choice == 1){
+				pGameState->menu = 2;
+				menuOptionLoop (pIn,pGameState,pScreen,pMenu,pGameOptions);
+				pGameState->choice = 1;
+				pGameState->menu = 1;
+				updateScreenMenu(pMenu,pScreen,pGameState);
+			}
+			if (pGameState->choice == 2){
+				pIn->quit = 1;
 			}
 		}
 		updateScreenMenu(pMenu,pScreen,pGameState);
 		SDL_Delay(15);
 	}
+}
+
+void menuOptionLoop (Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,GameOptions* pGameOptions){
+	if(pGameOptions){
+	  // ça enlèbe un warning
+	}
+	int goOut = 0;
+	int flagUP = 0;
+	int flagDOWN = 0;
+	pGameState->choice = 0;
+	while(!goOut && !pIn->quit){
+	  	updateInput(pIn);
+		if (pIn->keys[SDL_SCANCODE_DOWN]){
+			if (!flagDOWN){
+				if (pGameState->choice < 1){
+					pGameState->choice ++;
+					flagDOWN = 1;
+				}
+			}
+		}else{
+			flagDOWN = 0;
+		}
+		
+		if (pIn->keys[SDL_SCANCODE_UP]){
+			if (!flagUP){
+				if (pGameState->choice > 0 ){
+					pGameState->choice --;
+					flagUP = 1;
+				}
+			}
+		}else{
+			flagUP = 0;
+		}
+		
+		if (pIn->keys[SDL_SCANCODE_RETURN]){		
+			if (pGameState->choice == 0){
+				pGameState->menu = 0;
+			}
+			if (pGameState->choice == 1){
+			}
+		}
+		
+		if (pIn->keys[SDL_SCANCODE_Q]){	
+			goOut = 1;
+		}
+		updateScreenMenu(pMenu,pScreen,pGameState);
+	}
+	
 }
 
 void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *pEnemies,Screen *pScreen,Collision *pCollision,MusicManager *pMusicManager,TTFManager * pTTFManager,TimeManager *pTimeManager,GameOptions* pGameOptions){
