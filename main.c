@@ -13,7 +13,7 @@ int main(int argc, char* argv[]){
 	Screen screen;
 	Collision collision;
 	Input in;
-	Menu menu;
+	Menu menu = {0};
 	MusicManager musicManager;
 	TTFManager ttfManager;
 	TimeManager timeManager;
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
 	
 	//Chargement des images 
 	loadMenu(&menu, &screen);
-	updateScreenMenu(&menu,&screen,&gameState);
+	updateScreenMenu(&menu,&screen,&gameState,&gameOptions);
 	
 	//fprintf(stderr,"Parce qu'avec un printf ça marche\n"); // NON MAIS WTF SERIEUX ??!
 	
@@ -45,6 +45,7 @@ int main(int argc, char* argv[]){
 	//Initialisation des comportements par défaut
 	memset(&gameOptions,0,sizeof(gameOptions));
 	gameState.menu = 1;
+	gameOptions.BG = menu.BgChoice[gameOptions.BGChoice];
 	
 	//boucle principale
 	while(!in.quit){

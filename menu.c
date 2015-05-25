@@ -22,14 +22,9 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 	on = SDL_LoadBMP("Pictures/On.bmp");
 	off = SDL_LoadBMP("Pictures/Off.bmp");
 	background = SDL_LoadBMP("Pictures/BackGround.bmp");
-	bgSpace = SDL_LoadBMP("Pictures/Grey.bmp");
+	bgSpace = SDL_LoadBMP("Pictures/BGspace.bmp");
 	bgSea = SDL_LoadBMP("Pictures/BGsea.bmp");
-	bgGrey = SDL_LoadBMP("Pictures/BGgrey.bmp");
-
-	int h = 52;
-	int w = 150;
-	int *ph = &h;
-	int *pw = &w;	
+	bgGrey = SDL_LoadBMP("Pictures/BGgrey.bmp");	
 	
 	if (start == NULL){
 		fprintf(stderr,"Erreur chargement de l'image StartOn\n");
@@ -71,6 +66,10 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 		fprintf(stderr,"Erreur chargement de l'image Off\n");
 		exit(1);
 	}
+	if (bgSpace == NULL){
+		fprintf(stderr,"Erreur chargement de l'image StartOn\n");
+		exit(1);
+	}
 	//Mise en place des Render
 	pMenu->Start=SDL_CreateTextureFromSurface(pScreen->renderer,start);
 	SDL_QueryTexture(pMenu->Start, NULL, NULL, &(pMenu->ButtonPos[0].w), &(pMenu->ButtonPos[0].h));
@@ -100,12 +99,8 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 	SDL_QueryTexture(pMenu->BackGround, NULL, NULL, &(pMenu->ButtonPos[3].w), &(pMenu->ButtonPos[3].h));
 	
 	pMenu->menuBG=SDL_CreateTextureFromSurface(pScreen->renderer,bgGrey);
-
-	pMenu->BgChoice[0]=SDL_CreateTextureFromSurface(pScreen->renderer,bgGrey);
-	SDL_QueryTexture(pMenu->BgChoice[0], NULL, NULL, pw, ph);
-
+	pMenu->BgChoice[0]=SDL_CreateTextureFromSurface(pScreen->renderer,bgSpace);
 	pMenu->BgChoice[1]=SDL_CreateTextureFromSurface(pScreen->renderer,bgSea);
-	SDL_QueryTexture(pMenu->BgChoice[1], NULL, NULL, pw, ph);
 
 	//Position des boutons
 	
@@ -128,9 +123,13 @@ void loadMenu(Menu *pMenu, Screen *pScreen){
 	pMenu->menuBGRec.y = 0;
 	pMenu->menuBGRec.h = SCREEN_HEIGHT;
 	pMenu->menuBGRec.w = SCREEN_WIDTH;
+	pMenu->BGChoiceRec.x = 500;
+	pMenu->BGChoiceRec.y = 350;
+	pMenu->BGChoiceRec.h = 100;
+	pMenu->BGChoiceRec.w = 134;
 }
 
-void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate){
+void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate,GameOptions* pGameOptions){
 	
 	//On efface le contenu de l'écran
 	SDL_RenderClear(pScreen->renderer);
@@ -158,6 +157,7 @@ void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate){
 	}
 	if (pGamestate->menu == 2){
 		SDL_RenderCopy(pScreen->renderer,pMenu->menuBG,NULL,&pMenu->menuBGRec);
+		SDL_RenderCopy(pScreen->renderer,pGameOptions->BG,NULL,&pMenu->BGChoiceRec);
 		SDL_RenderCopy(pScreen->renderer,pMenu->Sounds,NULL,&(pMenu->ButtonPos[0]));
 		SDL_RenderCopy(pScreen->renderer,pMenu->BackGround,NULL,&(pMenu->ButtonPos[1]));
 		if (pGamestate -> choice == 0){

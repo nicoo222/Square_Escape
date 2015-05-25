@@ -12,6 +12,6 @@ void loadMenu(Menu *pMenu, Screen *pScreen);
 void updateMenu(GameState *pGameState, Menu *pMenu, Screen *pScreen);
 
 /** Mise à jour de l'affichage **/
-void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate);
+void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate,GameOptions* pGameOptions);
 
 #endif

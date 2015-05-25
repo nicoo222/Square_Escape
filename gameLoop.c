@@ -2,11 +2,12 @@
 #include "gameFunctions.h"
 
 void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,GameOptions* pGameOptions){
-	updateScreenMenu(pMenu,pScreen,pGameState);
+	updateScreenMenu(pMenu,pScreen,pGameState,pGameOptions);
 	int flagE = 1;
 	int flagUP = 1;
 	int flagDOWN = 1;
 	while(pGameState->menu && !pIn->quit){
+		updateScreenMenu(pMenu,pScreen,pGameState,pGameOptions);
 		updateInput(pIn);
 		//on teste quelle touche est appuyée
 		if (pIn->keys[SDL_SCANCODE_E]){
@@ -48,13 +49,11 @@ void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,Gam
 				menuOptionLoop (pIn,pGameState,pScreen,pMenu,pGameOptions);
 				pGameState->choice = 1;
 				pGameState->menu = 1;
-				updateScreenMenu(pMenu,pScreen,pGameState);
 			}
 			if (pGameState->choice == 2){
 				pIn->quit = 1;
 			}
 		}
-		updateScreenMenu(pMenu,pScreen,pGameState);
 		SDL_Delay(15);
 	}
 }
@@ -96,8 +95,16 @@ void menuOptionLoop (Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pM
 			if(!flagRETURN){
 				if (pGameState->choice == 0){
 					flagRETURN = 1;
+					pGameState->sChoice = (pGameState->sChoice+1)%2;
+					if (pGameState->sChoice == 0){
+						Mix_VolumeMusic(0);
+					} else {
+						Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+					}
 				}
 				if (pGameState->choice == 1){
+					pGameOptions->BGChoice = (pGameOptions->BGChoice + 1)%2;
+					pGameOptions->BG = pMenu->BgChoice[pGameOptions->BGChoice];
 					flagRETURN = 1;
 				}
 			}
@@ -108,7 +115,7 @@ void menuOptionLoop (Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pM
 		if (pIn->keys[SDL_SCANCODE_BACKSPACE]){	
 			goOut = 1;
 		}
-		updateScreenMenu(pMenu,pScreen,pGameState);
+		updateScreenMenu(pMenu,pScreen,pGameState,pGameOptions);
 	}
 	
 }
@@ -125,14 +132,7 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 	
 	Mix_PlayMusic(pMusicManager->music[pMusicManager->currentMusic], -1); //Jouer infiniment la musique
 	
-	//On charge le BG du mode
-	SDL_Surface* BGSurface;
-	BGSurface = SDL_LoadBMP("Pictures/fond_space.bmp");
-	if (BGSurface == NULL){
-		fprintf(stderr,"Erreur chargement de l'image menuBG\n");
-		exit(1);
-	}
-	pGameOptions->BG = SDL_CreateTextureFromSurface(pScreen->renderer,BGSurface);
+	//On set la taille du BG du mode
 	pGameOptions->BGRec.x = 0;
 	pGameOptions->BGRec.y = 0;
 	pGameOptions->BGRec.w = PLAYING_AREA_WIDTH;
@@ -208,7 +208,6 @@ void mode0Loop(Input *pIn,GameState *pGameState,Character *pCharacter,Enemies *p
 		endGameLoop(pIn,pGameState,pScreen);
 		
 	}
-	SDL_FreeSurface(BGSurface);
 }
 
 void pauseLoop(GameState* pGameState,Input* pIn,Screen *pScreen){
@@ -279,19 +278,11 @@ void mode1Loop(Input *pIn,GameOptions* pGameOptions,Screen* pScreen, GameState* 
 	
 	
 	pGameState->lost = 0;
-	//On charge le BG du mode
-	SDL_Surface* BGSurface;
-	BGSurface = SDL_LoadBMP("Pictures/fond_grass.bmp");
-	if (BGSurface == NULL){
-		fprintf(stderr,"Erreur chargement de l'image BGSurface\n");
-		exit(1);
-	}
-	pGameOptions->BG = SDL_CreateTextureFromSurface(pScreen->renderer,BGSurface);
+	//On set la taille du BG du mode
 	pGameOptions->BGRec.x = 0;
 	pGameOptions->BGRec.y = 0;
 	pGameOptions->BGRec.w = PLAYING_AREA_WIDTH;
 	pGameOptions->BGRec.h = PLAYING_AREA_HEIGHT;
-	SDL_FreeSurface(BGSurface);
 	updateTTFManager(pScreen,&ttfManager,&timeManager,&enemies);
 	updateSeedScore(pScreen, &scoreTexte, score, &ttfManager);
 

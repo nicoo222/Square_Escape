@@ -78,6 +78,7 @@ typedef struct GameState{
 
 typedef struct GameOptions{
 	int mode;
+	int BGChoice;
 	SDL_Texture* BG;
 	SDL_Rect BGRec;
 }GameOptions;
@@ -115,10 +116,12 @@ typedef struct Menu{
 	SDL_Texture *OnOff[2];
 	SDL_Texture *BackGround;
 	SDL_Texture *BgChoice[2];
+	SDL_Rect BGChoiceRec;
 	SDL_Texture *Selection;
 	SDL_Rect ButtonPos[6];
 	SDL_Texture* menuBG;
 	SDL_Rect menuBGRec;
+	
 }Menu;
 
 
