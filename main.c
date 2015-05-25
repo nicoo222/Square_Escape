@@ -3,7 +3,7 @@
 
 // gcc main.c initFunctions.c gameFunctions.c screenFunctions.c  gameLoop.c menu.c unit.c -lSDL2 -lSDL2_mixer -lSDL2_ttf -o game -Wall -Wformat -Wextra
 int main(int argc, char* argv[]){
-	if(argc > 1 && strcmp(argv[1],"-h")){		
+	if(argc > 1 && strcmp(argv[1],"-h")){
 	}
 	//Création des structures de jeu
 	Character character;
