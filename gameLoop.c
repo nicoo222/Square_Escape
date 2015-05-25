@@ -3,9 +3,9 @@
 
 void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,GameOptions* pGameOptions){
 	updateScreenMenu(pMenu,pScreen,pGameState);
-	int flagE = 0;
-	int flagUP = 0;
-	int flagDOWN = 0;
+	int flagE = 1;
+	int flagUP = 1;
+	int flagDOWN = 1;
 	while(pGameState->menu && !pIn->quit){
 		updateInput(pIn);
 		//on teste quelle touche est appuyée
@@ -64,8 +64,9 @@ void menuOptionLoop (Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pM
 	  // ça enlèbe un warning
 	}
 	int goOut = 0;
-	int flagUP = 0;
-	int flagDOWN = 0;
+	int flagUP = 1;
+	int flagDOWN = 1;
+	int flagRETURN = 1;
 	pGameState->choice = 0;
 	while(!goOut && !pIn->quit){
 	  	updateInput(pIn);
@@ -91,15 +92,20 @@ void menuOptionLoop (Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pM
 			flagUP = 0;
 		}
 		
-		if (pIn->keys[SDL_SCANCODE_RETURN]){		
-			if (pGameState->choice == 0){
-				pGameState->menu = 0;
+		if (pIn->keys[SDL_SCANCODE_RETURN]){
+			if(!flagRETURN){
+				if (pGameState->choice == 0){
+					flagRETURN = 1;
+				}
+				if (pGameState->choice == 1){
+					flagRETURN = 1;
+				}
 			}
-			if (pGameState->choice == 1){
-			}
+		}else{
+			flagRETURN = 0;
 		}
 		
-		if (pIn->keys[SDL_SCANCODE_Q]){	
+		if (pIn->keys[SDL_SCANCODE_BACKSPACE]){	
 			goOut = 1;
 		}
 		updateScreenMenu(pMenu,pScreen,pGameState);
