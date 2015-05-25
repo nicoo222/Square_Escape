@@ -7,6 +7,6 @@
 
 void loadMenu(Menu *pMenu, Screen *pScreen);
 void updateMenu(GameState *pGameState, Menu *pMenu, Screen *pScreen);
-void updateScreenMenu(Menu *pMenu, Screen *pScreen);
+void updateScreenMenu(Menu *pMenu, Screen *pScreen, GameState *pGamestate);
 
 #endif

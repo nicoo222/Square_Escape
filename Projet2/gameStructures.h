@@ -19,22 +19,13 @@ typedef struct TimeManager{
 }TimeManager;
 
 typedef struct TTFManager{
-	SDL_Texture* score;
-	SDL_Texture* time;
-	SDL_Texture* playAgain;
-	SDL_Texture* BAM;
-	SDL_Texture* squareNumber;
-	SDL_Texture* pauseTextL1;
-	SDL_Texture* pauseTextL2;
-	SDL_Texture* pauseTextL3;
-	SDL_Rect pauseTextL1Rec;
-	SDL_Rect pauseTextL2Rec;
-	SDL_Rect pauseTextL3Rec;
-	SDL_Rect squareNumberRec;
-	SDL_Rect BAMRec;
+	SDL_Texture * score;
+	SDL_Texture * time;
+	SDL_Texture * actualTime;
+	SDL_Texture * playAgain;
 	SDL_Rect timeRec;
-	SDL_Rect playAgainRec;
-	TTF_Font* font;
+	SDL_Rect actualTimeRec;
+	TTF_Font *font;
 }TTFManager;
 
 typedef struct Input{
@@ -57,6 +48,8 @@ typedef struct Collision{
 typedef struct Screen{
 	SDL_Window * window;
 	SDL_Renderer * renderer;
+	SDL_Texture * map;
+	SDL_Rect mapPosition;
 	int frameDuration;
 }Screen;
 
@@ -74,8 +67,6 @@ typedef struct GameState{
 
 typedef struct GameOptions{
 	int mode;
-	SDL_Texture* BG;
-	SDL_Rect BGRec;
 }GameOptions;
 
 //liste des structures qui gère les objets du jeu
@@ -83,17 +74,6 @@ typedef struct Character{
 	SDL_Texture * square;
 	SDL_Rect squarePosition;
 }Character;
-
-typedef struct Unit{
-	SDL_Texture* pTexture;
-	SDL_Rect rec;
-}Unit;
-
-typedef struct Texte{
-	int flag;
-	SDL_Texture* pTexture;
-	SDL_Rect rec;
-}Texte;
 
 typedef struct Enemies{
 	SDL_Texture * enemies[MAX_ENEMIES];
@@ -113,7 +93,9 @@ typedef struct Menu{
 	SDL_Texture *BgChoice[2];
 	SDL_Texture *Selection;
 	SDL_Rect ButtonPos[6];
+	SDL_Texture* map;
+	SDL_Rect mapRec;
+	
 }Menu;
-
 
 #endif

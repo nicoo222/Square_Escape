@@ -2,29 +2,13 @@
 #include "gameFunctions.h"
 
 void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,GameOptions* pGameOptions){
-	updateMenu(pGameState,pMenu,pScreen);
+	updateScreenMenu(pMenu,pScreen,pGameState);
 	int flagE = 0;
+	int flagUP = 0;
+	int flagDOWN = 0;
 	while(pGameState->menu && !pIn->quit){
 		updateInput(pIn);
 		//on teste quelle touche est appuyée
-		if (pIn->keys[SDL_SCANCODE_DOWN]){
-			if (!pGameState->choice){
-				pGameState->choice ++;
-				updateMenu(pGameState,pMenu,pScreen);
-			}
-		}
-		if (pIn->keys[SDL_SCANCODE_UP]){
-			if (pGameState->choice){
-				pGameState->choice --;
-				updateMenu(pGameState,pMenu,pScreen);
-			}
-		}
-		if (pIn->keys[SDL_SCANCODE_RETURN]){
-		  	pGameState->menu = 0;
-			if (pGameState->choice == 1){
-				pIn->quit = 1;
-			}
-		}
 		if (pIn->keys[SDL_SCANCODE_E]){
 			if(!flagE){
 				pGameOptions->mode = (pGameOptions->mode+1)%2;
@@ -33,8 +17,57 @@ void menuLoop(Input *pIn,GameState *pGameState, Screen *pScreen, Menu* pMenu,Gam
 		}else{
 			flagE = 0;
 		}
+		if (pIn->keys[SDL_SCANCODE_DOWN]){
+			if (!flagDOWN){
+				if (pGameState->choice < 2){
+					pGameState->choice ++;
+					fprintf(stderr,"flagDOWN = %d\n",flagDOWN);
+					flagDOWN = 1;
+				}
+			}
+		}else{
+			flagDOWN = 0;
+		}
+	
+		if (pIn->keys[SDL_SCANCODE_UP]){
+			if (!flagUP){
+				if (pGameState->choice > 0 ){
+					pGameState->choice --;
+					flagUP = 1;
+				}
+			}
+		}else{
+			flagUP = 0;
+		}
 		
-		SDL_RenderPresent(pScreen->renderer);
+		if (pIn->keys[SDL_SCANCODE_RETURN]){
+			if (pGameState->menu == 1) {		
+				if (pGameState->choice == 0){
+					pGameState->menu = 0;
+				}
+				else if (pGameState->choice == 1){
+					pGameState->menu = 2;
+					pGameState->choice = 0;
+				}
+				else if (pGameState->choice == 2){
+					pIn->quit = 1;
+				}
+			} else if (pGameState->menu == 2) {
+				if (pGameState->choice == 0) {
+					if (pGameState->sChoice == 0){
+						pGameState->sChoice = 1;
+					} else {
+						pGameState->sChoice = 0;
+					}
+				}
+				if (pGameState->choice == 1){
+					if (pGameState->bgChoice == 0){
+						pGameState->bgChoice = 1;
+					} else { pGameState->bgChoice = 0;}
+				}
+			}
+		}
+		updateScreenMenu(pMenu,pScreen,pGameState);
 		SDL_Delay(15);
 	}
 }

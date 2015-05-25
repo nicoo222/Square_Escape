@@ -8,7 +8,7 @@ int main(int argc, char* argv[]){
 	//Création des structures de jeu
 	Character character;
 	Enemies enemies;
-	GameState gameState;
+	GameState gameState={0};
 	GameOptions gameOptions;
 	Screen screen;
 	Collision collision;
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
 	
 	//Chargement des images 
 	loadMenu(&menu, &screen);
-	updateScreenMenu(&menu,&screen);
+	updateScreenMenu(&menu,&screen,&gameState);
 	
 	//fprintf(stderr,"Parce qu'avec un printf ça marche\n"); // NON MAIS WTF SERIEUX ??!
 	
